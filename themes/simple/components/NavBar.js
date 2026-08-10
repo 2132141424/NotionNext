@@ -33,10 +33,10 @@ export default function NavBar(props) {
   }
 
   return (
-    <nav className='w-full bg-white md:pt-0  relative z-20 shadow border-t border-gray-100 dark:border-hexo-black-gray dark:bg-black'>
+    <nav className='flex-1 bg-white md:pt-0 relative z-20 dark:bg-black'>
       <div
         id='nav-bar-inner'
-        className='h-12 mx-auto max-w-9/10 justify-between items-center text-sm md:text-md md:justify-start'>
+        className='h-12 mx-auto max-w-9/10 justify-between items-center text-sm md:text-md md:justify-end'>
         {/* 左侧菜单 */}
         <div className='h-full w-full float-left text-center md:text-left flex flex-wrap items-stretch md:justify-start md:items-start space-x-4'>
           {showSearchInput && (
