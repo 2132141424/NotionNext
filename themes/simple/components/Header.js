@@ -1,6 +1,7 @@
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import SmartLink from '@/components/SmartLink'
+import CONFIG from '../config'
 
 /**
  * 网站顶部 - 紧凑模式，与导航栏同行
@@ -22,9 +23,11 @@ export default function Header(props) {
             alt={siteConfig('AUTHOR')}
           />
         </div>
-        <span className='text-lg font-bold dark:text-white whitespace-nowrap hover:text-red-400 transition-colors duration-200'>
-          {siteConfig('AUTHOR')}
-        </span>
+        <span className='text-lg font-bold dark:text-white whitespace-nowrap hover:text-red-400 transition-colors duration-200'
+          dangerouslySetInnerHTML={{
+            __html: siteConfig('SIMPLE_LOGO_DESCRIPTION', null, CONFIG)
+          }}
+        />
       </SmartLink>
     </div>
   )
