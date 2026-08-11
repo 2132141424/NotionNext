@@ -79,9 +79,16 @@ const LayoutBase = props => {
 
         {siteConfig('SIMPLE_TOP_BAR', null, CONFIG) && <TopBar {...props} />}
 
-        {/* 顶部LOGO + 导航栏同行 */}
-        <div className='w-full bg-white dark:bg-black flex items-center px-6 border-b border-gray-100 dark:border-gray-800 shadow-sm relative z-10'>
+        {/* 顶部LOGO + 导航栏：桌面端同行，手机端Header独佔 + 底部菜单 */}
+        <div className='w-full bg-white dark:bg-black flex items-center justify-center md:justify-start px-4 md:px-6 border-b border-gray-100 dark:border-gray-800 shadow-sm relative z-10'>
           <Header {...props} />
+          <div className='hidden md:flex flex-1'>
+            <NavBar {...props} />
+          </div>
+        </div>
+
+        {/* 手机端底部固定菜单栏 */}
+        <div className='md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-gray-100 dark:border-gray-800 shadow-lg'>
           <NavBar {...props} />
         </div>
 
@@ -91,7 +98,7 @@ const LayoutBase = props => {
           className={
             (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
               ? 'flex-row-reverse'
-              : '') + ' w-full flex-1 flex items-start max-w-9/10 mx-auto pt-12'
+              : '') + ' w-full flex-1 flex items-start max-w-9/10 mx-auto pt-12 pb-16 md:pb-0'
           }>
           <div id='container-inner ' className='w-full flex-grow min-h-fit'>
             <Transition

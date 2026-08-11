@@ -91,7 +91,7 @@ export const MenuList = ({ customNav, customMenu }) => {
 
         <Collapse
           collapseRef={collapseRef}
-          className='absolute w-full top-12 left-0'
+          className='absolute w-full left-0 bottom-full mb-1'
           isOpen={isOpen}>
           <div
             id='menu-wrap'

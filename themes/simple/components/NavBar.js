@@ -33,18 +33,18 @@ export default function NavBar(props) {
   }
 
   return (
-    <nav className='flex-1 bg-white md:pt-0 relative z-20 dark:bg-black'>
+    <nav className='flex-1 md:flex-none bg-white md:pt-0 relative z-20 dark:bg-black'>
       <div
         id='nav-bar-inner'
-        className='h-12 mx-auto max-w-9/10 justify-between items-center text-sm md:text-md md:justify-end'>
-        {/* 左侧菜单 */}
-        <div className='h-full w-full float-left text-center md:text-left flex flex-wrap items-stretch md:justify-start md:items-start space-x-4'>
+        className='h-12 mx-auto max-w-9/10 flex justify-between items-center text-sm md:text-md md:justify-end'>
+        {/* 菜单/搜索区域 */}
+        <div className='h-full flex-1 flex items-center md:justify-start space-x-4 px-2 md:px-0'>
           {showSearchInput && (
             <input
               autoFocus
               id='simple-search'
               onKeyUp={onKeyUp}
-              className='float-left w-full outline-none h-full px-4'
+              className='float-left w-full outline-none h-full px-4 text-base'
               aria-label='Submit search'
               type='search'
               name='s'
@@ -55,8 +55,7 @@ export default function NavBar(props) {
           {!showSearchInput && <MenuList {...props} />}
         </div>
 
-        <div className='absolute right-12 h-full text-center px-2 flex items-center text-blue-400  cursor-pointer'>
-          {/* <!-- extra links --> */}
+        <div className='h-full text-center px-2 flex items-center text-blue-400 cursor-pointer flex-shrink-0'>
           <i
             className={
               showSearchInput
