@@ -124,7 +124,6 @@ const ExternalPlugin = props => {
   // 默认关闭NProgress
   const ENABLE_NPROGRSS = siteConfig('ENABLE_NPROGRSS', false)
   const COZE_BOT_ID = siteConfig('COZE_BOT_ID')
-  const COZE_CHAT_ENABLED = siteConfig('COZE_CHAT_ENABLED', null, NOTION_CONFIG)
   const DOCS_CHAT_API = siteConfig('DOCS_CHAT_API')
   const HILLTOP_ADS_META_ID = siteConfig(
     'HILLTOP_ADS_META_ID',
@@ -273,7 +272,6 @@ const ExternalPlugin = props => {
       {pluginsIdle && <AosAnimation />}
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && <LA51 />}
       {DOCS_CHAT_API ? <DocsChat /> : COZE_BOT_ID && <Coze />}
-      {COZE_CHAT_ENABLED && <CozeChat />}
 
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && (
         <>
@@ -566,9 +564,6 @@ const AosAnimation = dynamic(() => import('@/components/AOSAnimation'), {
 })
 
 const Coze = dynamic(() => import('@/components/Coze'), {
-  ssr: false
-})
-const CozeChat = dynamic(() => import('@/components/CozeChat'), {
   ssr: false
 })
 const DocsChat = dynamic(() => import('@/components/DocsChat'), {
