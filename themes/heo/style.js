@@ -32,6 +32,7 @@ const Style = () => {
       }
 
       .dark #theme-heo {
+        --heo-color-card: var(--heo-color-card-dark);
         --heo-color-text: var(--heo-color-text-dark);
         --heo-color-text-secondary: var(--heo-color-text-secondary-dark);
         background-color: var(--heo-color-bg-dark);
