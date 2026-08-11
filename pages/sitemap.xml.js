@@ -35,6 +35,27 @@ export const getServerSideProps = async ctx => {
 
   fields = getUniqueFields(fields)
 
+  // 额外URL（SITEMAP_EXTRA_URLS 可在 Notion Config 中配置）
+  const extraUrls = siteConfig('SITEMAP_EXTRA_URLS', [])
+  if (extraUrls && Array.isArray(extraUrls)) {
+    const dateNow = toSitemapDateString(new Date())
+    const extraFields = extraUrls
+      .map(item => {
+        if (typeof item === 'string') return { loc: item, lastmod: dateNow, changefreq: 'weekly', priority: '0.5' }
+        if (item?.url || item?.loc) {
+          return {
+            loc: item.url || item.loc,
+            lastmod: item.lastmod || dateNow,
+            changefreq: item.changefreq || 'weekly',
+            priority: item.priority || '0.5'
+          }
+        }
+        return null
+      })
+      .filter(Boolean)
+    fields = fields.concat(extraFields)
+  }
+
   // 缓存
   ctx.res.setHeader(
     'Cache-Control',
