@@ -133,6 +133,13 @@ export default function PostHeader({ post, siteInfo, isDarkMode, lock }) {
                 <i className='fa-regular fa-calendar-check'></i>{' '}
                 {post.lastEditedDay}
               </div>
+
+              {post?.author && (
+                <div className='pl-1 mr-2'>
+                  <i className='fa-regular fa-user'></i>{' '}
+                  {post.author}
+                </div>
+              )}
             </div>
 
             {/* 阅读统计 */}

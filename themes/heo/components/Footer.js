@@ -1,13 +1,21 @@
+'use client'
+
 import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import CopyRightDate from '@/components/CopyRightDate'
 import PoweredBy from '@/components/PoweredBy'
 import { siteConfig } from '@/lib/config'
+import { useEffect, useState } from 'react'
 import SocialButton from './SocialButton'
 /**
  * 页脚
  * @returns
  */
 const Footer = () => {
+  const [hostname, setHostname] = useState('')
+
+  useEffect(() => {
+    setHostname(window.location.hostname)
+  }, [])
   const BEI_AN = siteConfig('BEI_AN')
   const BEI_AN_LINK = siteConfig('BEI_AN_LINK')
   const BIO = siteConfig('BIO')
@@ -43,7 +51,7 @@ const Footer = () => {
               href={'/about'}
               className='underline font-semibold dark:text-gray-300 '
             >
-              {siteConfig('AUTHOR')}
+              {hostname || siteConfig('AUTHOR')}
             </a>
             {BIO && <span className='mx-1'> | {BIO}</span>}
           </div>

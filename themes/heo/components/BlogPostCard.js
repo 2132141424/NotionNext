@@ -89,6 +89,13 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               )}
               <span className='menu-link '>{post.title}</span>
             </SmartLink>
+
+            {post?.author && (
+              <div className='mt-1 text-xs text-gray-500 dark:text-gray-400'>
+                <i className='fa-regular fa-user mr-1'></i>
+                {post.author}
+              </div>
+            )}
           </header>
 
           {/* 摘要 */}
