@@ -1,6 +1,9 @@
+'use client'
+
 import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import DarkModeButton from '@/components/DarkModeButton'
 import { siteConfig } from '@/lib/config'
+import { useEffect, useState } from 'react'
 
 /**
  * 页脚
@@ -13,6 +16,11 @@ export default function Footer(props) {
   const since = siteConfig('SINCE')
   const copyrightDate =
     parseInt(since) < currentYear ? since + '-' + currentYear : currentYear
+  const [hostname, setHostname] = useState('')
+
+  useEffect(() => {
+    setHostname(window.location.hostname)
+  }, [])
 
   return (
     <footer className='relative w-full bg-black px-6 border-t'>
@@ -20,7 +28,7 @@ export default function Footer(props) {
 
       <div className='text-yellow-300 container mx-auto max-w-4xl py-6 md:flex flex-wrap md:flex-no-wrap md:justify-between items-center text-sm'>
         <div className='text-center'>
-          &copy;{`${copyrightDate}`} {siteConfig('AUTHOR')}. All rights
+          &copy;{`${copyrightDate}`} {hostname || siteConfig('AUTHOR')}. All rights
           reserved.
         </div>
         <div className='md:p-0 text-center md:text-right text-xs'>
