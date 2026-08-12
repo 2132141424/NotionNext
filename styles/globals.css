@@ -283,11 +283,11 @@ a.avatar-wrapper {
 /* Chatbase 桌面端：靠边收起为一条，hover 展开 */
 @media (min-width: 701px) {
   button#chatbase-bubble-button {
-    clip-path: inset(0 0 0 calc(100% - 10px));
-    transition: clip-path 0.25s ease;
+    transform: translateX(calc(100% - 10px));
+    transition: transform 0.3s ease;
   }
   button#chatbase-bubble-button.chatbase-expanded {
-    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
   }
 }
 

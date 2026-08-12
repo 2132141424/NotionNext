@@ -305,7 +305,7 @@ const ExternalPlugin = props => {
             dangerouslySetInnerHTML={{
               __html: `
 (function() {
-  var idleTimer, btn;
+  var idleTimer, btn, chatOpen = false;
   function init() {
     btn = document.getElementById('chatbase-bubble-button');
     if (!btn) { setTimeout(init, 300); return; }
@@ -315,10 +315,23 @@ const ExternalPlugin = props => {
     });
     btn.addEventListener('mouseleave', function() {
       clearTimeout(idleTimer);
+      if (chatOpen) return;
       idleTimer = setTimeout(function() {
         btn.classList.remove('chatbase-expanded');
       }, 30000);
     });
+    // 监听聊天窗口的打开和关闭
+    var observer = new MutationObserver(function() {
+      var win = document.getElementById('chatbase-bubble-window');
+      if (win && !chatOpen) {
+        chatOpen = true;
+        btn.classList.add('chatbase-expanded');
+        clearTimeout(idleTimer);
+      } else if (!win && chatOpen) {
+        chatOpen = false;
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
   setTimeout(init, 800);
 })();
