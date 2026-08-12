@@ -308,7 +308,9 @@ const ExternalPlugin = props => {
   var hideTimer, btn;
   function isChatOpen() {
     var w = document.getElementById('chatbase-bubble-window');
-    return w && w.offsetParent !== null;
+    if (!w) return false;
+    var s = window.getComputedStyle(w);
+    return s.display !== 'none' && s.visibility !== 'hidden';
   }
   function init() {
     btn = document.getElementById('chatbase-bubble-button');
@@ -327,12 +329,7 @@ const ExternalPlugin = props => {
     });
     btn.addEventListener('click', function() {
       clearTimeout(hideTimer);
-      setTimeout(function() {
-        if (isChatOpen()) {
-          btn.classList.add('chatbase-expanded');
-          clearTimeout(hideTimer);
-        }
-      }, 600);
+      btn.classList.add('chatbase-expanded');
     });
   }
   setTimeout(init, 800);
