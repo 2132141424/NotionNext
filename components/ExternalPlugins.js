@@ -53,7 +53,6 @@ const ExternalPlugin = props => {
     NOTION_CONFIG
   )
   const RIBBON = siteConfig('RIBBON', null, NOTION_CONFIG)
-  const WIDGET_PET = siteConfig('WIDGET_PET', null, NOTION_CONFIG)
   const CUSTOM_RIGHT_CLICK_CONTEXT_MENU = siteConfig(
     'CUSTOM_RIGHT_CLICK_CONTEXT_MENU',
     null,
@@ -245,7 +244,6 @@ const ExternalPlugin = props => {
       <GlobalStyle />
       {ENABLE_ICON_FONT && <IconFont />}
       {MOUSE_FOLLOW && <MouseFollow />}
-      {WIDGET_PET && <Live2D />}
       {pluginsIdle && THEME_SWITCH && <ThemeSwitch />}
       {DEBUG && <DebugPanel />}
       {ANALYTICS_ACKEE_TRACKER && <Ackee />}
@@ -530,7 +528,6 @@ const Sakura = dynamic(() => import('@/components/Sakura'), { ssr: false })
 const StarrySky = dynamic(() => import('@/components/StarrySky'), {
   ssr: false
 })
-const Live2D = dynamic(() => import('@/components/Live2D'), { ssr: false })
 const DifyChatbot = dynamic(() => import('@/components/DifyChatbot'), {
   ssr: false
 })
