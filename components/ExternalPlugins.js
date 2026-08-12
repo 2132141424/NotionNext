@@ -305,33 +305,35 @@ const ExternalPlugin = props => {
             dangerouslySetInnerHTML={{
               __html: `
 (function() {
-  var idleTimer, btn, chatOpen = false;
+  var hideTimer, btn;
+  function isChatOpen() {
+    var w = document.getElementById('chatbase-bubble-window');
+    return w && w.offsetParent !== null;
+  }
   function init() {
     btn = document.getElementById('chatbase-bubble-button');
     if (!btn) { setTimeout(init, 300); return; }
+
     btn.addEventListener('mouseenter', function() {
       btn.classList.add('chatbase-expanded');
-      clearTimeout(idleTimer);
+      clearTimeout(hideTimer);
     });
     btn.addEventListener('mouseleave', function() {
-      clearTimeout(idleTimer);
-      if (chatOpen) return;
-      idleTimer = setTimeout(function() {
+      clearTimeout(hideTimer);
+      if (isChatOpen()) return;
+      hideTimer = setTimeout(function() {
         btn.classList.remove('chatbase-expanded');
       }, 30000);
     });
-    // 监听聊天窗口的打开和关闭
-    var observer = new MutationObserver(function() {
-      var win = document.getElementById('chatbase-bubble-window');
-      if (win && !chatOpen) {
-        chatOpen = true;
-        btn.classList.add('chatbase-expanded');
-        clearTimeout(idleTimer);
-      } else if (!win && chatOpen) {
-        chatOpen = false;
-      }
+    btn.addEventListener('click', function() {
+      clearTimeout(hideTimer);
+      setTimeout(function() {
+        if (isChatOpen()) {
+          btn.classList.add('chatbase-expanded');
+          clearTimeout(hideTimer);
+        }
+      }, 600);
     });
-    observer.observe(document.body, { childList: true, subtree: true });
   }
   setTimeout(init, 800);
 })();
