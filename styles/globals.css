@@ -280,6 +280,17 @@ a.avatar-wrapper {
   }
 }
 
+/* Chatbase 桌面端：靠边收起为一条，hover 展开 */
+@media (min-width: 701px) {
+  button#chatbase-bubble-button {
+    clip-path: inset(0 0 0 calc(100% - 10px));
+    transition: clip-path 0.25s ease;
+  }
+  button#chatbase-bubble-button.chatbase-expanded {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 img {
   display: unset;
 }

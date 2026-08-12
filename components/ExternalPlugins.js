@@ -301,6 +301,30 @@ const ExternalPlugin = props => {
                     `
             }}
           />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+(function() {
+  var idleTimer, btn;
+  function init() {
+    btn = document.getElementById('chatbase-bubble-button');
+    if (!btn) { setTimeout(init, 300); return; }
+    btn.addEventListener('mouseenter', function() {
+      btn.classList.add('chatbase-expanded');
+      clearTimeout(idleTimer);
+    });
+    btn.addEventListener('mouseleave', function() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function() {
+        btn.classList.remove('chatbase-expanded');
+      }, 30000);
+    });
+  }
+  setTimeout(init, 800);
+})();
+              `
+            }}
+          />
         </>
       )}
 
