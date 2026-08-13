@@ -6,7 +6,7 @@ module.exports = {
   ANALYTICS_BUSUANZI_ENABLE:
     process.env.NEXT_PUBLIC_ANALYTICS_BUSUANZI_ENABLE || false, // 展示网站阅读量、访问数 see http://busuanzi.ibruce.info/ （默认关闭，改用 Cloudflare Web Analytics）
   ANALYTICS_CLOUDFLARE_TOKEN:
-    process.env.NEXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN || '230e238bba374ac19782886b1283d6da', // Cloudflare Web Analytics token，在 CF 面板「分析与日志→Web 分析」站点脚本 data-cf-beacon 中获取
+    process.env.NEXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN || '', // Cloudflare Web Analytics token，在 Vercel 环境变量 NEXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN 中配置
   ANALYTICS_BAIDU_ID: process.env.NEXT_PUBLIC_ANALYTICS_BAIDU_ID || '', // e.g 只需要填写百度统计的id，[baidu_id] -> https://hm.baidu.com/hm.js?[baidu_id]
   ANALYTICS_CNZZ_ID: process.env.NEXT_PUBLIC_ANALYTICS_CNZZ_ID || '', // 只需要填写站长统计的id, [cnzz_id] -> https://s9.cnzz.com/z_stat.php?id=[cnzz_id]&web_id=[cnzz_id]
   ANALYTICS_GOOGLE_ID: process.env.NEXT_PUBLIC_ANALYTICS_GOOGLE_ID || '', // 谷歌Analytics的id e.g: G-XXXXXXXXXX
