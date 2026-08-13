@@ -7,7 +7,6 @@ import {
 } from '@/lib/db/SiteDataApi'
 import { formatNotionBlock } from '@/lib/db/notion/getPostBlocks'
 import { generateRobotsTxt } from '@/lib/utils/robots.txt'
-import { generateIndexNowKeyFile, pushIndexNow } from '@/lib/utils/indexnow'
 import { generateRss, shouldGenerateRssForLocale } from '@/lib/utils/rss'
 import { generateSitemapXml } from '@/lib/utils/sitemap.xml'
 import { DynamicLayout } from '@/themes/theme'
@@ -110,15 +109,6 @@ export async function getStaticProps(req) {
   if (isBuildLifecycle) {
     // 生成robotTxt
     generateRobotsTxt(props)
-
-    // 生成 IndexNow 密钥文件
-    generateIndexNowKeyFile()
-
-    // 构建完成后推送首页和 sitemap
-    pushIndexNow([
-      `https://blog.waterfish.ren`,
-      `https://blog.waterfish.ren/sitemap.xml`
-    ])
     // 生成Feed订阅
     if (shouldGenerateRssForLocale({ locale })) {
       await generateRss(props)

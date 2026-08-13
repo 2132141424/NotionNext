@@ -1,0 +1,24 @@
+name: IndexNow Daily Submit
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit URLs to Bing IndexNow
+        run: |
+          curl -s -X POST "https://www.bing.com/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "blog.waterfish.ren",
+              "key": "d63b486f3d1a1a62931e32d0520654cb",
+              "keyLocation": "https://blog.waterfish.ren/d63b486f3d1a1a62931e32d0520654cb.txt",
+              "urlList": [
+                "https://blog.waterfish.ren",
+                "https://blog.waterfish.ren/sitemap.xml"
+              ]
+            }'
