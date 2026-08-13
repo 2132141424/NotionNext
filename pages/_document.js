@@ -104,6 +104,15 @@ class MyDocument extends Document {
 
           {/* 预先设置深色模式，避免闪烁 */}
           <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
+
+          {/* Cloudflare Web Analytics */}
+          {BLOG.ANALYTICS_CLOUDFLARE_TOKEN && (
+            <script
+              type='module'
+              src='https://static.cloudflareinsights.com/beacon.min.js'
+              data-cf-beacon={`{"token": "${BLOG.ANALYTICS_CLOUDFLARE_TOKEN}"}`}
+            />
+          )}
         </Head>
 
         <body>
