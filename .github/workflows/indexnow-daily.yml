@@ -5,41 +5,54 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
-      - name: Submit sitemap URLs to Bing IndexNow
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Submit new blog URLs to Bing IndexNow
         run: |
           KEY="f4dbd82d38bd4b7aa6f60e72e1e67a6e"
           KEY_LOCATION="https://blog.waterfish.ren/f4dbd82d38bd4b7aa6f60e72e1e67a6e.txt"
           SITEMAP="https://blog.waterfish.ren/sitemap.xml"
+          SUBMITTED="indexnow-submitted.txt"
 
-          # 拉取 sitemap 并逐条提交其中的 URL
-          curl -s "$SITEMAP" | grep -oP '(?<=<loc>)[^<]+' | while read -r url; do
-            [ -z "$url" ] && continue
-            code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow" \
-              --data-urlencode "url=$url" \
-              --data-urlencode "key=$KEY" \
-              --data-urlencode "keyLocation=$KEY_LOCATION")
-            echo "$code $url"
-          done
+          # 拉取 sitemap 并提取全部 URL
+          curl -s "$SITEMAP" | grep -oP '(?<=<loc>)[^<]+' | sort -u > /tmp/current.txt
 
-      - name: Submit main domain URLs to Bing IndexNow
+          # 读取已提交记录（不存在则视为空）
+          touch "$SUBMITTED"
+          sort -u "$SUBMITTED" > /tmp/submitted.txt
+
+          # 检测多出来的（新增）URL：在 sitemap 中、但尚未提交过的
+          comm -23 /tmp/current.txt /tmp/submitted.txt > /tmp/new.txt
+
+          # 只提交新增 URL，不重复提交已提交过的 URL
+          if [ -s /tmp/new.txt ]; then
+            while read -r url; do
+              [ -z "$url" ] && continue
+              code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow"                 --data-urlencode "url=$url"                 --data-urlencode "key=$KEY"                 --data-urlencode "keyLocation=$KEY_LOCATION")
+              echo "$code $url"
+            done < /tmp/new.txt
+          else
+            echo "No new URLs, skip submit"
+          fi
+
+          # 更新已提交记录
+          cat "$SUBMITTED" /tmp/current.txt | sort -u > /tmp/merged.txt
+          mv /tmp/merged.txt "$SUBMITTED"
+
+      - name: Commit submitted list if changed
         run: |
-          KEY="d59dc20b730c4d488e0d5929e4d95e5d"
-          KEY_LOCATION="https://waterfish.ren/d59dc20b730c4d488e0d5929e4d95e5d.txt"
-
-          for url in \
-            "https://waterfish.ren" \
-            "https://waterfish.ren/choose" \
-            "https://board.waterfish.ren" \
-            "https://ziyuan.waterfish.ren" \
-            "https://mail.waterfish.ren"
-          do
-            code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow" \
-              --data-urlencode "url=$url" \
-              --data-urlencode "key=$KEY" \
-              --data-urlencode "keyLocation=$KEY_LOCATION")
-            echo "$code $url"
-          done
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- indexnow-submitted.txt; then
+            git add indexnow-submitted.txt
+            git commit -m "chore: update IndexNow submitted list"
+            git push
+          fi
