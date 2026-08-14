@@ -24,3 +24,22 @@ jobs:
               --data-urlencode "keyLocation=$KEY_LOCATION")
             echo "$code $url"
           done
+
+      - name: Submit main domain URLs to Bing IndexNow
+        run: |
+          KEY="d59dc20b730c4d488e0d5929e4d95e5d"
+          KEY_LOCATION="https://waterfish.ren/d59dc20b730c4d488e0d5929e4d95e5d.txt"
+
+          for url in \
+            "https://waterfish.ren" \
+            "https://waterfish.ren/choose" \
+            "https://board.waterfish.ren" \
+            "https://ziyuan.waterfish.ren" \
+            "https://mail.waterfish.ren"
+          do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow" \
+              --data-urlencode "url=$url" \
+              --data-urlencode "key=$KEY" \
+              --data-urlencode "keyLocation=$KEY_LOCATION")
+            echo "$code $url"
+          done
