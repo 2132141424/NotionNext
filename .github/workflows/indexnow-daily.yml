@@ -9,16 +9,18 @@ jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
-      - name: Submit URLs to Bing IndexNow
+      - name: Submit sitemap URLs to Bing IndexNow
         run: |
-          curl -s -X POST "https://www.bing.com/indexnow" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            -d '{
-              "host": "blog.waterfish.ren",
-              "key": "f4dbd82d38bd4b7aa6f60e72e1e67a6e",
-              "keyLocation": "https://blog.waterfish.ren/f4dbd82d38bd4b7aa6f60e72e1e67a6e.txt",
-              "urlList": [
-                "https://blog.waterfish.ren",
-                "https://blog.waterfish.ren/sitemap.xml"
-              ]
-            }'
+          KEY="f4dbd82d38bd4b7aa6f60e72e1e67a6e"
+          KEY_LOCATION="https://blog.waterfish.ren/f4dbd82d38bd4b7aa6f60e72e1e67a6e.txt"
+          SITEMAP="https://blog.waterfish.ren/sitemap.xml"
+
+          # 拉取 sitemap 并逐条提交其中的 URL
+          curl -s "$SITEMAP" | grep -oP '(?<=<loc>)[^<]+' | while read -r url; do
+            [ -z "$url" ] && continue
+            code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow" \
+              --data-urlencode "url=$url" \
+              --data-urlencode "key=$KEY" \
+              --data-urlencode "keyLocation=$KEY_LOCATION")
+            echo "$code $url"
+          done
