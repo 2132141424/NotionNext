@@ -9,7 +9,7 @@
 继续在 Notion 写作，一键发布为博客、作品集、知识库、导航站或产品官网。
 
 <p>
-  <a href="https://preview.tangly1024.com/">在线预览</a>
+  <a href="https://blog.waterfish.ren">我的站点</a>
   ·
   <a href="https://notionnext.tangly1024.com/user-guide/start-here">开始搭建</a>
   ·
