@@ -44,6 +44,22 @@ export default function UmamiShareAnalytics({ shareToken, apiBase }) {
     }
 
     const load = async () => {
+      // 先加载站点快照（stats.json），秒显避免空白；后台再拉实时值覆盖
+      try {
+        const snapRes = await fetch('/stats.json')
+        if (snapRes.ok && !cancelled) {
+          const snap = await snapRes.json()
+          setText('busuanzi_value_site_pv', snap?.pageviews ?? 0)
+          setText('busuanzi_value_page_pv', snap?.pageviews ?? 0)
+          setText('busuanzi_value_site_uv', snap?.visitors ?? 0)
+          reveal('busuanzi_container_site_pv')
+          reveal('busuanzi_container_page_pv')
+          reveal('busuanzi_container_site_uv')
+        }
+      } catch (e) {
+        // 快照加载失败不影响后续实时拉取
+      }
+
       try {
         const site = await resolveWebsite()
         if (!site || cancelled) return

@@ -1,15 +1,15 @@
-name: IndexNow Daily Submit
+name: Daily Sync (IndexNow + Umami Stats)
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0,8,16 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  submit:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +36,7 @@ jobs:
           if [ -s /tmp/new.txt ]; then
             while read -r url; do
               [ -z "$url" ] && continue
-              code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow"                 --data-urlencode "url=$url"                 --data-urlencode "key=$KEY"                 --data-urlencode "keyLocation=$KEY_LOCATION")
+              code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow" --data-urlencode "url=$url" --data-urlencode "key=$KEY" --data-urlencode "keyLocation=$KEY_LOCATION")
               echo "$code $url"
             done < /tmp/new.txt
           else
@@ -47,12 +47,51 @@ jobs:
           cat "$SUBMITTED" /tmp/current.txt | sort -u > /tmp/merged.txt
           mv /tmp/merged.txt "$SUBMITTED"
 
-      - name: Commit submitted list if changed
+      - name: Fetch Umami stats snapshot
+        run: |
+          SHARE_TOKEN="xwrf0SlrEZD0wA79"
+          BASE="https://cloud.umami.is/analytics/us/api"
+          OUT="public/stats.json"
+
+          # 1. 用公开分享 token 解析 websiteId 与访问 token
+          SHARE_JSON=$(curl -s "$BASE/share/$SHARE_TOKEN")
+          WEBSITE_ID=$(echo "$SHARE_JSON" | jq -r '.websiteId // empty')
+          ACCESS_TOKEN=$(echo "$SHARE_JSON" | jq -r '.token // empty')
+          if [ -z "$WEBSITE_ID" ] || [ -z "$ACCESS_TOKEN" ]; then
+            echo "resolve websiteId/token failed, skip"
+            exit 0
+          fi
+
+          # 2. 拉取站点全量 PV/UV
+          NOW=$(date +%s000)
+          STATS_JSON=$(curl -s -H "x-umami-share-token: $ACCESS_TOKEN" -H "x-umami-share-context: 1" "$BASE/websites/$WEBSITE_ID/stats?startAt=0&endAt=$NOW")
+          PAGEVIEWS=$(echo "$STATS_JSON" | jq -r '.pageviews // 0')
+          VISITORS=$(echo "$STATS_JSON" | jq -r '.visitors // 0')
+
+          # 3. 与现有快照对比，数据变化时才写文件（避免无意义的重复 commit）
+          OLD_PV=""
+          OLD_UV=""
+          if [ -f "$OUT" ]; then
+            OLD_PV=$(jq -r '.pageviews // 0' "$OUT")
+            OLD_UV=$(jq -r '.visitors // 0' "$OUT")
+          fi
+
+          if [ "$PAGEVIEWS" != "$OLD_PV" ] || [ "$VISITORS" != "$OLD_UV" ]; then
+            UPDATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            jq -n --argjson pv "$PAGEVIEWS" --argjson uv "$VISITORS" --arg ts "$UPDATED" '{pageviews: $pv, visitors: $uv, updatedAt: $ts}' > "$OUT"
+            echo "stats.json updated: pv $OLD_PV -> $PAGEVIEWS, uv $OLD_UV -> $VISITORS"
+          else
+            echo "stats unchanged, skip write"
+          fi
+
+      - name: Commit changes if any
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet -- indexnow-submitted.txt; then
-            git add indexnow-submitted.txt
-            git commit -m "chore: update IndexNow submitted list"
+          git add -A indexnow-submitted.txt public/stats.json
+          if git diff --cached --quiet; then
+            echo "No changes, skip commit"
+          else
+            git commit -m "chore: daily sync IndexNow list & Umami stats snapshot"
             git push
           fi
