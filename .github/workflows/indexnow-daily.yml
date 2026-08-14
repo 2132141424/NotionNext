@@ -15,8 +15,8 @@ jobs:
             -H "Content-Type: application/json; charset=utf-8" \
             -d '{
               "host": "blog.waterfish.ren",
-              "key": "d63b486f3d1a1a62931e32d0520654cb",
-              "keyLocation": "https://blog.waterfish.ren/d63b486f3d1a1a62931e32d0520654cb.txt",
+              "key": "f4dbd82d38bd4b7aa6f60e72e1e67a6e",
+              "keyLocation": "https://blog.waterfish.ren/f4dbd82d38bd4b7aa6f60e72e1e67a6e.txt",
               "urlList": [
                 "https://blog.waterfish.ren",
                 "https://blog.waterfish.ren/sitemap.xml"
