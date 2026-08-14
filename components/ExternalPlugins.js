@@ -135,6 +135,7 @@ const ExternalPlugin = props => {
 
   const UMAMI_HOST = siteConfig('UMAMI_HOST', null, NOTION_CONFIG)
   const UMAMI_ID = siteConfig('UMAMI_ID', null, NOTION_CONFIG)
+  const UMAMI_SHARE_TOKEN = siteConfig('UMAMI_SHARE_TOKEN', null, NOTION_CONFIG)
 
   const externalCssList = useMemo(() => {
     return Array.isArray(CUSTOM_EXTERNAL_CSS)
@@ -490,6 +491,10 @@ const ExternalPlugin = props => {
       {UMAMI_ID && (
         <script async defer src={UMAMI_HOST} data-website-id={UMAMI_ID}></script>
       )}
+      {/* UMAMI 前端展示浏览量/访客数 */}
+      {UMAMI_SHARE_TOKEN && (
+        <UmamiShareAnalytics shareToken={UMAMI_SHARE_TOKEN} />
+      )}
 
       {/* 谷歌统计 */}
       {ANALYTICS_GOOGLE_ID && (
@@ -578,6 +583,10 @@ const MusicPlayer = dynamic(() => import('@/components/Player'), { ssr: false })
 const Ackee = dynamic(() => import('@/components/Ackee'), { ssr: false })
 const Gtag = dynamic(() => import('@/components/Gtag'), { ssr: false })
 const Busuanzi = dynamic(() => import('@/components/Busuanzi'), { ssr: false })
+const UmamiShareAnalytics = dynamic(
+  () => import('@/components/UmamiShareAnalytics'),
+  { ssr: false }
+)
 const Messenger = dynamic(() => import('@/components/FacebookMessenger'), {
   ssr: false
 })
