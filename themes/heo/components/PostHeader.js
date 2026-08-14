@@ -19,6 +19,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode, lock }) {
   // 文章头图
   const headerImage = post?.pageCover ? post.pageCover : siteInfo?.pageCover
   const ANALYTICS_BUSUANZI_ENABLE = siteConfig('ANALYTICS_BUSUANZI_ENABLE')
+  const UMAMI_SHARE_TOKEN = siteConfig('UMAMI_SHARE_TOKEN')
   return (
     <div
       id='post-bg'
@@ -143,10 +144,16 @@ export default function PostHeader({ post, siteInfo, isDarkMode, lock }) {
             </div>
 
             {/* 阅读统计 */}
-            {ANALYTICS_BUSUANZI_ENABLE && (
+            {(ANALYTICS_BUSUANZI_ENABLE || UMAMI_SHARE_TOKEN) && (
               <div className='busuanzi_container_page_pv font-light mr-2'>
                 <i className='fa-solid fa-fire-flame-curved'></i>{' '}
-                <span className='mr-2 busuanzi_value_page_pv' />
+                <span
+                  className={`mr-2 ${
+                    ANALYTICS_BUSUANZI_ENABLE
+                      ? 'busuanzi_value_page_pv'
+                      : 'umami_value_post_pv'
+                  }`}
+                />
               </div>
             )}
           </section>
