@@ -68,18 +68,24 @@ jobs:
           PAGEVIEWS=$(echo "$STATS_JSON" | jq -r '.pageviews // 0')
           VISITORS=$(echo "$STATS_JSON" | jq -r '.visitors // 0')
 
-          # 3. 与现有快照对比，数据变化时才写文件（避免无意义的重复 commit）
+          # 3. 拉取全站各路径 PV 映射（一次请求，供文章单页阅读量秒显）
+          METRICS_JSON=$(curl -s -H "x-umami-share-token: $ACCESS_TOKEN" -H "x-umami-share-context: 1" "$BASE/websites/$WEBSITE_ID/metrics?type=path&startAt=0&endAt=$NOW")
+          PAGES_JSON=$(echo "$METRICS_JSON" | jq -c 'if type == "array" then map({key: .x, value: .y}) | from_entries else {} end')
+
+          # 4. 与现有快照对比，数据变化时才写文件（避免无意义的重复 commit）
           OLD_PV=""
           OLD_UV=""
+          OLD_PAGES=""
           if [ -f "$OUT" ]; then
             OLD_PV=$(jq -r '.pageviews // 0' "$OUT")
             OLD_UV=$(jq -r '.visitors // 0' "$OUT")
+            OLD_PAGES=$(jq -c '.pages // {}' "$OUT")
           fi
 
-          if [ "$PAGEVIEWS" != "$OLD_PV" ] || [ "$VISITORS" != "$OLD_UV" ]; then
+          if [ "$PAGEVIEWS" != "$OLD_PV" ] || [ "$VISITORS" != "$OLD_UV" ] || [ "$PAGES_JSON" != "$OLD_PAGES" ]; then
             UPDATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            jq -n --argjson pv "$PAGEVIEWS" --argjson uv "$VISITORS" --arg ts "$UPDATED" '{pageviews: $pv, visitors: $uv, updatedAt: $ts}' > "$OUT"
-            echo "stats.json updated: pv $OLD_PV -> $PAGEVIEWS, uv $OLD_UV -> $VISITORS"
+            jq -n --argjson pv "$PAGEVIEWS" --argjson uv "$VISITORS" --argjson pages "$PAGES_JSON" --arg ts "$UPDATED" '{pageviews: $pv, visitors: $uv, pages: $pages, updatedAt: $ts}' > "$OUT"
+            echo "stats.json updated: pv $OLD_PV -> $PAGEVIEWS, uv $OLD_UV -> $VISITORS, pages changed"
           else
             echo "stats unchanged, skip write"
           fi

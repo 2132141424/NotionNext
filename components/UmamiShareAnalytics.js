@@ -55,6 +55,15 @@ export default function UmamiShareAnalytics({ shareToken, apiBase }) {
           reveal('busuanzi_container_site_pv')
           reveal('busuanzi_container_page_pv')
           reveal('busuanzi_container_site_uv')
+
+          // 单页 PV 快照：按当前路径从 pages 映射中秒显，后台再实时覆盖
+          const path = window.location.pathname
+          if (path && path !== '/') {
+            const pagePv = snap?.pages?.[path]
+            if (typeof pagePv === 'number') {
+              setText('umami_value_post_pv', pagePv)
+            }
+          }
         }
       } catch (e) {
         // 快照加载失败不影响后续实时拉取
