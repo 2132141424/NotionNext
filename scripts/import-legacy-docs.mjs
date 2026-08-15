@@ -123,7 +123,7 @@ function textOf(richText) {
         if (type === 'a' && value) out = `[${escapeLinkLabel(out)}](${normalizeUrl(value)})`
         if (type === 'b') out = `**${out}**`
         if (type === 'i') out = `_${out}_`
-        if (type === 'c') out = `\`${out.replace(/`/g, '\\`')}\``
+        if (type === 'c') out = `\`${out.replace(/\\/g, '\\\\').replace(/`/g, '\\`')}\``
         if (type === 's') out = `~~${out}~~`
       }
       return out

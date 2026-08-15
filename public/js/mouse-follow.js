@@ -44,6 +44,14 @@ function createMouseCanvas() {
       if (!obj) continue
       for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
+          // 跳过原型污染风险键
+          if (
+            key === '__proto__' ||
+            key === 'constructor' ||
+            key === 'prototype'
+          ) {
+            continue
+          }
           if (
             typeof obj[key] === 'object' &&
             obj[key] !== null &&

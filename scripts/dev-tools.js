@@ -124,7 +124,15 @@ function clean() {
   dirsToClean.forEach(dir => {
     const fullPath = path.join(process.cwd(), dir)
     if (fs.existsSync(fullPath)) {
-      runCommand(`rm -rf ${fullPath}`, `清理 ${dir}`)
+      log(`\n🔧 清理 ${dir}...`, 'blue')
+      try {
+        // 使用 fs.rmSync 而非 shell 命令，避免环境值拼接导致的命令注入
+        fs.rmSync(fullPath, { recursive: true, force: true })
+        log(`✅ 清理 ${dir} 完成`, 'green')
+      } catch (error) {
+        log(`❌ 清理 ${dir} 失败`, 'red')
+        log(error.message, 'red')
+      }
     } else {
       log(`📁 ${dir} 不存在，跳过`, 'cyan')
     }

@@ -49,7 +49,7 @@ async function download(url) {
   })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const contentType = res.headers.get('content-type') || ''
-  if (!contentType.startsWith('image/') && !url.includes('source.unsplash.com')) {
+  if (!contentType.startsWith('image/') && !isUnsplashSource(url)) {
     throw new Error(`not an image: ${contentType || 'unknown content-type'}`)
   }
   const bytes = Buffer.from(await res.arrayBuffer())

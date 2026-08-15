@@ -245,7 +245,10 @@ const LayoutSlug = props => {
             if (item.querySelector('figcaption').textContent.trim() === value) {
               item.classList.add('active')
               if (iframe) {
-                iframe.setAttribute('src', iframe.getAttribute('data-src'))
+                const dataSrc = iframe.getAttribute('data-src')
+                if (dataSrc && /^https?:\/\//i.test(dataSrc)) {
+                  iframe.setAttribute('src', dataSrc)
+                }
               }
             } else {
               item.classList.remove('active')

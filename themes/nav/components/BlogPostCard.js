@@ -5,6 +5,19 @@ import { useRouter } from 'next/router'
 import NotionIcon from './NotionIcon'
 
 /**
+ * 判断 URL 的 hostname 是否属于 AWS 图床（*.amazonaws.com）
+ * @param {string} url
+ * @returns {boolean}
+ */
+const isAwsHost = url => {
+  try {
+    return new URL(url).hostname.endsWith('amazonaws.com')
+  } catch {
+    return false
+  }
+}
+
+/**
  * 博客卡牌
  * @param {*} param0
  * @returns
@@ -17,7 +30,7 @@ const BlogPostCard = ({ post, className }) => {
       ? post.pageIcon
       : siteConfig('IMG_LAZY_LOAD_PLACEHOLDER')
   pageIcon =
-    post.pageIcon.indexOf('amazonaws.com') !== -1
+    isAwsHost(post.pageIcon)
       ? post.pageIcon + '&width=88'
       : post.pageIcon
   return (

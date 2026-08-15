@@ -148,10 +148,13 @@ const isReadmeLikePage = page => {
 const sanitizeReadmeHtml = html => {
   if (!html || typeof html !== 'string') return ''
   return html
-    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
-    .replace(/<iframe[\s\S]*?>[\s\S]*?<\/iframe>/gi, '')
-    .replace(/\son[a-z]+\s*=\s*(['"]).*?\1/gi, '')
-    .replace(/\shref\s*=\s*(['"])\s*javascript:[\s\S]*?\1/gi, ' href="#"')
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '')
+    .replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe\s*>/gi, '')
+    .replace(/\s+on[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+    .replace(
+      /\s+href\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi,
+      m => (/javascript:/i.test(m) ? ' href="#"' : m)
+    )
 }
 
 export default function ProfileHome(props) {

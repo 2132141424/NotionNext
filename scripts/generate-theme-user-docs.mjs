@@ -29,6 +29,10 @@ const DEV_DEEP_DOCS = {
 
 const manifest = loadThemeSwitchManifest()
 
+/** 转义 Markdown 表格单元格内容（竖线 + 换行） */
+const escapeTableCell = s =>
+  String(s).replace(/\|/g, '\\|').replace(/\r?\n/g, '<br>')
+
 const scenes = {
   simple: '个人文字博客、默认入门',
   hexo: '类 Hexo 双栏博客',
@@ -179,7 +183,7 @@ function buildThemeIndexTable(ids) {
   for (const id of ids) {
     const meta = manifest[id] || {}
     const title = meta.name || id.charAt(0).toUpperCase() + id.slice(1)
-    const summary = (meta.summary || scenes[id] || '—').replace(/\|/g, '\\|')
+    const summary = escapeTableCell(meta.summary || scenes[id] || '—')
     const dev = DEV_DEEP_DOCS[id]
       ? ` · [开发文档（GitHub）](${DEV_DEEP_DOCS[id]})`
       : ''
