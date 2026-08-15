@@ -39,6 +39,19 @@ async function findMarkdownFiles(dir) {
   return out
 }
 
+function isUnsplashSource(url) {
+  if (!url || typeof url !== 'string') return false
+  try {
+    const hostname = new URL(url).hostname
+    return (
+      hostname === 'source.unsplash.com' ||
+      hostname.endsWith('.source.unsplash.com')
+    )
+  } catch {
+    return false
+  }
+}
+
 async function download(url) {
   const res = await fetch(url, {
     headers: {
