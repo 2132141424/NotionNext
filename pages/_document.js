@@ -104,9 +104,47 @@ class MyDocument extends Document {
 
           {/* 预先设置深色模式，避免闪烁 */}
           <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
+          {/* 预加载遮罩的深色模式样式 */}
+          <style dangerouslySetInnerHTML={{ __html: '.dark #preload-cover{background:#18171d!important} .dark #preload-progress{background:#dca846!important}' }} />
         </Head>
 
         <body>
+          {/* 预加载遮罩：在 React 水合前显示，加载完成后淡出 */}
+          <div id='preload-cover' style='position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f9fe;'>
+            <div style='text-align:center;'>
+              <img id='preload-icon' src={BLOG.BLOG_FAVICON || '/favicon.ico'} alt='logo' style='width:64px;height:64px;margin-bottom:28px;border-radius:12px;' />
+              <div style='width:180px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;'>
+                <div id='preload-progress' style='height:100%;width:0%;background:#4f65f0;border-radius:2px;transition:width 0.4s ease;'></div>
+              </div>
+            </div>
+          </div>
+          <script dangerouslySetInnerHTML={{ __html: `
+(function(){
+  var p = document.getElementById('preload-progress');
+  var c = document.getElementById('preload-cover');
+  var v = 0;
+  function set(pct) { if(pct>v){ v=pct; p.style.width=pct+'%'; } }
+  set(8);
+  if(document.readyState==='loading') {
+    document.addEventListener('DOMContentLoaded',function(){ set(45); });
+  } else { set(45); }
+  window.addEventListener('load',function(){
+    set(85);
+    var si = setInterval(function(){
+      if(v>=95){ clearInterval(si); set(100); return; }
+      set(v+2);
+    }, 80);
+    setTimeout(function(){
+      c.style.opacity='0';
+      c.style.transition='opacity 0.5s ease';
+      setTimeout(function(){
+        c.remove();
+        window.dispatchEvent(new Event('scroll'));
+      }, 500);
+    }, 600);
+  });
+})();
+          `}} />
           <Main />
           <NextScript />
         </body>

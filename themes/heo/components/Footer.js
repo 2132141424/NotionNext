@@ -58,6 +58,17 @@ const Footer = () => {
         </div>
 
         <div id='footer-bottom-right'>
+          {siteConfig('ENABLE_RSS') && (
+            <a
+              href='/rss/feed.xml'
+              target='_blank'
+              rel='noreferrer'
+              className='mr-2 hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)] transition-colors'
+              title='RSS'>
+              <i className='fas fa-rss mr-1' />
+              RSS
+            </a>
+          )}
           {BEI_AN && (
             <>
               <i className='fas fa-shield-alt' />{' '}

@@ -16,7 +16,6 @@ const SocialButton = () => {
   const CONTACT_WEIBO = siteConfig('CONTACT_WEIBO')
   const CONTACT_INSTAGRAM = siteConfig('CONTACT_INSTAGRAM')
   const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
-  const ENABLE_RSS = siteConfig('ENABLE_RSS')
   const CONTACT_BILIBILI = siteConfig('CONTACT_BILIBILI')
   const CONTACT_YOUTUBE = siteConfig('CONTACT_YOUTUBE')
 
@@ -97,15 +96,6 @@ const SocialButton = () => {
             className='cursor-pointer'
             ref={emailIcon}>
             <i className={`${iconClass} fas fa-envelope`} />
-          </a>
-        )}
-        {ENABLE_RSS && (
-          <a
-            target='_blank'
-            rel='noreferrer'
-            title={'RSS'}
-            href={'/rss/feed.xml'}>
-            <i className={`${iconClass} fas fa-rss`} />
           </a>
         )}
         {CONTACT_BILIBILI && (
