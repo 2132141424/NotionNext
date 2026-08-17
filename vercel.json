@@ -1,5 +1,5 @@
 {
-  "framework": "other",
+  "framework": null,
   "buildCommand": "yarn export",
   "outputDirectory": "out",
   "cleanUrls": true,
