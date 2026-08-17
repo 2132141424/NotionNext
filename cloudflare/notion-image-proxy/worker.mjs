@@ -1,4 +1,8 @@
-const NOTION_ORIGIN = 'https://www.notion.so'
+// 双回源：www.notion.so（/image、/images、/icons）与 img.notionusercontent.com（/s3 预签名图）
+const ORIGINS = {
+  notion: 'https://www.notion.so',
+  notionusercontent: 'https://img.notionusercontent.com'
+}
 const EDGE_TTL_SECONDS = 60 * 60 * 24 * 7
 const BROWSER_TTL_SECONDS = 60 * 60 * 24
 const USER_AGENT =
@@ -29,7 +33,7 @@ export default {
       })
     }
 
-    const upstreamUrl = new URL(url.pathname + url.search, NOTION_ORIGIN)
+    const upstreamUrl = new URL(url.pathname + url.search, resolveOrigin(url.pathname))
     const response = await fetch(upstreamUrl, {
       method: 'GET',
       redirect: 'follow',
@@ -71,6 +75,19 @@ export default {
   }
 }
 
+// 根据路径前缀选择回源 origin；/s3 走 notionusercontent 预签名图，其余走 www.notion.so
+function resolveOrigin(pathname) {
+  if (pathname.startsWith('/s3/')) {
+    return ORIGINS.notionusercontent
+  }
+  return ORIGINS.notion
+}
+
 function isAllowedPath(pathname) {
-  return pathname.startsWith('/image/') || pathname.startsWith('/images/')
+  return (
+    pathname.startsWith('/image/') ||
+    pathname.startsWith('/images/') ||
+    pathname.startsWith('/icons/') ||
+    pathname.startsWith('/s3/')
+  )
 }
