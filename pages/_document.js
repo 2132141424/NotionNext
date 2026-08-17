@@ -52,34 +52,37 @@ const preloadHtml = `
 </style>
 <script>
 (function(){
-  function init(){
-    var p=document.getElementById('preload-progress');
-    var c=document.getElementById('preload-cover');
-    if(!p||!c) return;
-    var v=0;
-    function set(pct){ if(pct>v){ v=pct; p.style.width=pct+'%'; } }
-    set(8);
-    if(document.readyState==='loading'){
-      document.addEventListener('DOMContentLoaded',function(){ set(45); });
-    } else { set(45); }
-    window.addEventListener('load',function(){
-      set(85);
-      var si=setInterval(function(){
-        if(v>=95){ clearInterval(si); set(100); return; }
-        set(v+2);
-      }, 80);
+  var c=document.getElementById('preload-cover');
+  if(!c) return;
+  var p=document.getElementById('preload-progress');
+  var v=0;
+  function set(pct){ if(pct>v){ v=pct; p.style.width=pct+'%'; } }
+  function hide(){
+    if(c.dataset.done) return;
+    c.dataset.done='1';
+    set(100);
+    setTimeout(function(){
+      c.style.opacity='0';
+      c.style.transition='opacity 0.5s ease';
       setTimeout(function(){
-        c.style.opacity='0';
-        c.style.transition='opacity 0.5s ease';
-        setTimeout(function(){
-          c.remove();
-          window.dispatchEvent(new Event('scroll'));
-        }, 500);
-      }, 600);
-    });
+        if(c.parentNode) c.parentNode.removeChild(c);
+        window.dispatchEvent(new Event('scroll'));
+      }, 500);
+    }, 200);
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
-  else init();
+  set(8);
+  // 关键脚本就绪(React 水合开始)后即可淡出
+  document.addEventListener('DOMContentLoaded',function(){ set(50); });
+  // DOM 就绪后再额外等待极短的 100ms，让首屏可交互，随后淡出，不等 window.load（避免被慢图/超时图阻塞）
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){
+      set(70);
+      setTimeout(hide, 800);
+    });
+  } else {
+    set(70);
+    setTimeout(hide, 800);
+  }
 })();
 </script>
 `
