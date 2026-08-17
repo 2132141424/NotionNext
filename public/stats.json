@@ -1,22 +1,22 @@
 {
-  "pageviews": 121,
-  "visitors": 13,
+  "pageviews": 122,
+  "visitors": 14,
   "pages": {
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 8,
-    "/": 5,
+    "/": 6,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 2,
     "/about": 1,
+    "/zh-CN/category": 1,
+    "/tag/NAS": 1,
+    "/tag/水鱼之家更新": 1,
+    "/article/3ba3794e-eb27-805b-b83f-f512ebbc9f15": 1,
     "/article/3b83794e-eb27-80f6-b0d1-c950d9c0d017": 1,
     "/tag/推荐": 1,
-    "/tag/NAS": 1,
-    "/653c87809a9643068352912eb9602b81.txt": 1,
-    "/article/3ba3794e-eb27-805b-b83f-f512ebbc9f15": 1,
-    "/zh-CN/category": 1,
     "/article/3b83794e-eb27-801d-a30b-ed7444bf67d7": 1,
-    "/category": 1,
-    "/article/3b83794e-eb27-8013-9e9d-e4e8f35b796c": 1,
     "/f4dbd82d38bd4b7aa6f60e72e1e67a6e.txt": 1,
-    "/tag/水鱼之家更新": 1
+    "/653c87809a9643068352912eb9602b81.txt": 1,
+    "/article/3b83794e-eb27-8013-9e9d-e4e8f35b796c": 1,
+    "/category": 1
   },
-  "updatedAt": "2026-08-16T16:11:28Z"
+  "updatedAt": "2026-08-17T00:33:27Z"
 }
