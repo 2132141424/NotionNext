@@ -58,10 +58,18 @@ export default function LazyImage({
 
   const handleImageError = useCallback(() => {
     if (imageRef.current) {
+      const currentSrc = imageRef.current.src
+      // CDN 回退到原始 Notion 源
+      const originalSrc = getOriginalSrc(currentSrc)
+      if (originalSrc && originalSrc !== currentSrc) {
+        imageRef.current.src = originalSrc
+        imageRef.current.onerror = null // 只试一次回退，避免无限循环
+        return
+      }
       // 优先回退 fallbackSrc，再尝试 placeholderSrc，最后 defaultPlaceholderSrc
-      if (imageRef.current.src !== fallbackSrc && fallbackSrc) {
+      if (currentSrc !== fallbackSrc && fallbackSrc) {
         imageRef.current.src = fallbackSrc
-      } else if (imageRef.current.src !== placeholderSrc && placeholderSrc) {
+      } else if (currentSrc !== placeholderSrc && placeholderSrc) {
         imageRef.current.src = placeholderSrc
       } else {
         imageRef.current.src = defaultPlaceholderSrc
@@ -241,4 +249,27 @@ const adjustImgSize = (src, maxWidth) => {
   return src
     .replace(widthRegex, `width=${targetWidth}`)
     .replace(wRegex, `w=${targetWidth}`)
+}
+
+/**
+ * 从 CDN 图片 URL 还原原始 Notion 源站 URL，用于 CDN 加载失败时回退
+ * @param {string} src
+ * @returns {string|null}
+ */
+const getOriginalSrc = (src) => {
+  if (!src || typeof src !== 'string') return null
+  try {
+    const url = new URL(src)
+    const host = url.hostname
+    // 只处理自定义 CDN 域名
+    if (host === 'img.blog.waterfish.ren') {
+      if (url.pathname.startsWith('/s3/')) {
+        return 'https://img.notionusercontent.com' + url.pathname + url.search
+      }
+      return 'https://www.notion.so' + url.pathname + url.search
+    }
+    return null
+  } catch {
+    return null
+  }
 }
