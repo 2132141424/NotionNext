@@ -1,0 +1,68 @@
+name: Check Notion Updates
+
+# 每 5 分钟检测一次 Notion 内容是否有更新，有更新则更新时间戳文件触发自动部署
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # 支持手动触发测试
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 查询 Notion 数据库，取最后编辑时间（按 last_edited_time 倒序取第一条）
+      - name: Query Notion latest edit time
+        id: query
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: |
+          RESPONSE=$(curl -s -X POST "https://api.notion.com/v1/databases/${NOTION_DATABASE_ID}/query" \
+            -H "Authorization: Bearer ${NOTION_TOKEN}" \
+            -H "Notion-Version: 2026-03-11" \
+            -H "Content-Type: application/json" \
+            -d '{"page_size":1,"sorts":[{"timestamp":"last_edited_time","direction":"descending"}]}')
+          LATEST=$(echo "$RESPONSE" | jq -r '.results[0].last_edited_time // empty')
+          if [ -z "$LATEST" ]; then
+            echo "Failed to query Notion: $RESPONSE"
+            exit 1
+          fi
+          echo "latest=$LATEST" >> "$GITHUB_OUTPUT"
+          echo "Latest edit: $LATEST"
+
+      # 与仓库内记录的上次时间戳比较，有变化才标记 changed
+      - name: Compare with previous timestamp
+        id: compare
+        env:
+          LATEST: ${{ steps.query.outputs.latest }}
+        run: |
+          FILE=".notion-last-update"
+          PREV=""
+          if [ -f "$FILE" ]; then
+            PREV=$(cat "$FILE")
+          fi
+          echo "Previous: $PREV"
+          echo "Latest:   $LATEST"
+          if [ "$PREV" = "$LATEST" ]; then
+            echo "No update detected"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "$LATEST" > "$FILE"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 有更新才提交并推送，触发 ESA/Vercel 自动重新部署
+      - name: Commit and push if changed
+        if: steps.compare.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .notion-last-update
+          git commit -m "chore: notion content updated, trigger redeploy"
+          git push
