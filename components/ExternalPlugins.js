@@ -487,14 +487,21 @@ const ExternalPlugin = props => {
         />
       )}
 
-      {/* UMAMI 统计 - 仅真实访客上报，排除搜索引擎爬虫（爬虫过滤通过 JS 注入脚本完成） */}
+      {/* UMAMI 统计 - 仅真实访客上报；脚本由客户端 JS 动态注入，不执行 JS 的爬虫自然被排除 */}
       {UMAMI_ID && (
-        <script
-          async
-          defer
-          data-website-id={UMAMI_ID}
-          src={UMAMI_HOST}
-        />
+        <>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `console.log('[Umami] tracker config', { host: '${UMAMI_HOST}', id: '${UMAMI_ID}' })`
+            }}
+          />
+          <ExternalScript
+            async
+            defer
+            data-website-id={UMAMI_ID}
+            src={UMAMI_HOST}
+          />
+        </>
       )}
       {/* UMAMI 前端展示浏览量/访客数 */}
       {UMAMI_SHARE_TOKEN && (
