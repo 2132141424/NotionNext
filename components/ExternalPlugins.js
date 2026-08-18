@@ -487,13 +487,12 @@ const ExternalPlugin = props => {
         />
       )}
 
-      {/* UMAMI 统计 - 仅真实访客上报，排除搜索引擎爬虫 */}
+      {/* UMAMI 统计 - 仅真实访客上报，排除搜索引擎爬虫（爬虫过滤通过 JS 注入脚本完成） */}
       {UMAMI_ID && (
         <script
           async
           defer
           data-website-id={UMAMI_ID}
-          data-do-not-track="true"
           src={UMAMI_HOST}
         />
       )}
