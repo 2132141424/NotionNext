@@ -1,26 +1,14 @@
 {
-  "pageviews": 289,
-  "visitors": 86,
+  "pageviews": 28,
+  "visitors": 13,
   "pages": {
-    "/": 74,
-    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 8,
-    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 6,
-    "/about": 1,
-    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb2780e19625d36373a601bc": 1,
-    "/tag/推荐": 1,
-    "/article/3b93794e-eb27-80c6-a13a-cbf5ed77e031": 1,
-    "/tag/NAS": 1,
-    "/category": 1,
-    "/article/3ba3794e-eb27-805b-b83f-f512ebbc9f15": 1,
-    "/article/3b83794e-eb27-80f6-b0d1-c950d9c0d017": 1,
-    "/search": 1,
-    "/article/3b83794e-eb27-801d-a30b-ed7444bf67d7": 1,
-    "/tag/水鱼之家更新": 1,
-    "/404": 1,
-    "/article/3b83794e-eb27-8013-9e9d-e4e8f35b796c": 1,
-    "/zh-CN/category": 1,
-    "/f4dbd82d38bd4b7aa6f60e72e1e67a6e.txt": 1,
-    "/653c87809a9643068352912eb9602b81.txt": 1
+    "/": 11,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 2,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb27806d973ddc3201e7cfbd": 1,
+    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27804a91c8cc92b1c59b71": 1,
+    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 1,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 1,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780b58539d15bbb5e46fd": 1
   },
-  "updatedAt": "2026-08-18T08:21:27Z"
+  "updatedAt": "2026-08-18T16:17:51Z"
 }
