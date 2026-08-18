@@ -135,6 +135,11 @@ const Style = () => {
         white-space: nowrap;
       }
 
+      // 移除 react-notion-x 强制的最小高度，避免文章页底部出现大片空白
+      #theme-heo .notion-page-scroller {
+        min-height: auto;
+      }
+
       .today-card-cover {
         -webkit-mask-image: linear-gradient(to top, transparent 5%, black 70%);
         mask-image: linear-gradient(to top, transparent 5%, black 70%);

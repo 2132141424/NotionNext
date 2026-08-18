@@ -26,15 +26,13 @@ const Footer = () => {
       {/* 颜色过度区 */}
       <div
         id='color-transition'
-        className='h-32 bg-gradient-to-b from-[var(--heo-color-bg)] to-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)] dark:from-inherit dark:to-inherit'
+        className='h-16 bg-gradient-to-b from-[var(--heo-color-bg)] to-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)] dark:from-inherit dark:to-inherit'
       />
 
       {/* 社交按钮 */}
       <div className='w-full h-24'>
         <SocialButton />
       </div>
-
-      <br />
 
       {/* 底部页面信息 */}
       <div

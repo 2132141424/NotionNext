@@ -12,7 +12,6 @@ import { HashTag } from '@/components/HeroIcons'
 import LazyImage from '@/components/LazyImage'
 import LoadingCover from '@/components/LoadingCover'
 import replaceSearchResult from '@/components/Mark'
-import NotionPage from '@/components/NotionPage'
 import ShareBar from '@/components/ShareBar'
 import WWAds from '@/components/WWAds'
 import { siteConfig } from '@/lib/config'
@@ -21,6 +20,7 @@ import { loadWowJS } from '@/lib/plugins/wow'
 import { isBrowser } from '@/lib/utils'
 import { Transition } from '@headlessui/react'
 import SmartLink from '@/components/SmartLink'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import BlogPostArchive from './components/BlogPostArchive'
@@ -39,11 +39,20 @@ import PostHeader from './components/PostHeader'
 import { PostLock } from './components/PostLock'
 import PostRecommend from './components/PostRecommend'
 import SearchNav from './components/SearchNav'
-import SideRight from './components/SideRight'
 import CONFIG from './config'
 import { Style } from './style'
 import AISummary from '@/components/AISummary'
 import ArticleExpirationNotice from '@/components/ArticleExpirationNotice'
+
+// NotionPage 仅在文章页使用，懒加载以减小首页/列表页的首屏 JS 体积
+const NotionPage = dynamic(() => import('@/components/NotionPage'), {
+  ssr: true
+})
+
+// 右侧栏含 Live2D 等重组件，懒加载；仅桌面端可见
+const SideRight = dynamic(() => import('./components/SideRight'), {
+  ssr: true
+})
 
 /**
  * 基础布局 采用上中下布局，移动端使用顶部侧边导航栏
@@ -87,9 +96,14 @@ const LayoutBase = props => {
   )
   const HEO_LOADING_COVER = siteConfig('HEO_LOADING_COVER', true, CONFIG)
 
-  // 加载wow动画
+  // 加载wow动画（延迟到空闲时，避免阻塞首屏渲染）
   useEffect(() => {
-    loadWowJS()
+    const loadWow = () => loadWowJS()
+    if (isBrowser && typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(loadWow, { timeout: 3000 })
+    } else {
+      setTimeout(loadWow, 2000)
+    }
   }, [])
 
   return (

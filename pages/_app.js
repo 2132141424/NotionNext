@@ -2,9 +2,8 @@
 import '@/styles/globals.css'
 import '@/styles/utility-patterns.css'
 
-// core styles shared by all of react-notion-x (required)
-import 'react-notion-x/src/styles.css' // 原版的react-notion-x
-import '@/styles/notion.css' //  重写部分notion样式
+// react-notion-x 样式已移至 NotionPage.js 按需加载，减小首页/列表页首屏 CSS 体积
+import '@/styles/notion.css'
 
 import useAdjustStyle from '@/hooks/useAdjustStyle'
 import { GlobalContextProvider } from '@/lib/global'

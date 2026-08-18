@@ -204,9 +204,16 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: true,
+  productionBrowserSourceMaps: false,
 
   // 构建优化
   swcMinify: true,
+  compiler: {
+    removeConsole: process.env.npm_lifecycle_event === 'export' ||
+      process.env.npm_lifecycle_event === 'build'
+      ? { exclude: ['error', 'warn'] }
+      : false
+  },
   modularizeImports: {
     '@heroicons/react/24/outline': {
       transform: '@heroicons/react/24/outline/{{member}}'
