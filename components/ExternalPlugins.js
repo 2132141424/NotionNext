@@ -487,9 +487,15 @@ const ExternalPlugin = props => {
         />
       )}
 
-      {/* UMAMI 统计 */}
+      {/* UMAMI 统计 - 仅真实访客上报，排除搜索引擎爬虫 */}
       {UMAMI_ID && (
-        <script async defer src={UMAMI_HOST} data-website-id={UMAMI_ID}></script>
+        <script
+          async
+          defer
+          data-website-id={UMAMI_ID}
+          data-do-not-track="true"
+          src={UMAMI_HOST}
+        />
       )}
       {/* UMAMI 前端展示浏览量/访客数 */}
       {UMAMI_SHARE_TOKEN && (

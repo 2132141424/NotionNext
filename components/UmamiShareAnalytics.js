@@ -1,3 +1,4 @@
+import { isCrawler } from '@/lib/utils/isCrawler'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
@@ -14,6 +15,8 @@ export default function UmamiShareAnalytics({ shareToken, apiBase }) {
 
   useEffect(() => {
     if (!shareToken || typeof document === 'undefined') return
+    // 爬虫只展示页脚统计快照，不再发起拉取（统计源已通过 UMAMI 标签 do-not-track 过滤）
+    if (isCrawler()) return
     let cancelled = false
 
     const setText = (className, value) => {
