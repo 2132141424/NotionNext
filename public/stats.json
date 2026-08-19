@@ -1,14 +1,20 @@
 {
-  "pageviews": 37,
-  "visitors": 21,
+  "pageviews": 101,
+  "visitors": 38,
   "pages": {
-    "/": 19,
-    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 2,
+    "/": 33,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 5,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb27806d973ddc3201e7cfbd": 1,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27804a91c8cc92b1c59b71": 1,
+    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 1,
+    "/article/3b83794e-eb27-8018-b607-ca302d840e14": 1,
+    "/article/3b83794e-eb27-801d-a30b-ed7444bf67d7": 1,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 1,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 1,
-    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780b58539d15bbb5e46fd": 1
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780b58539d15bbb5e46fd": 1,
+    "/article/3b93794e-eb27-80ef-87b9-e8861c4d175d": 1,
+    "/article/3bf3794e-eb27-80ed-952e-f82c0f9b0063": 1,
+    "/article/3b93794e-eb27-80d8-a949-dfaf7fd967ef": 1
   },
-  "updatedAt": "2026-08-19T00:33:41Z"
+  "updatedAt": "2026-08-19T08:22:18Z"
 }
