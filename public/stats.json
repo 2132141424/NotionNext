@@ -1,13 +1,15 @@
 {
-  "pageviews": 130,
-  "visitors": 53,
+  "pageviews": 165,
+  "visitors": 62,
   "pages": {
-    "/": 47,
-    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 5,
+    "/": 55,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 7,
+    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 2,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 2,
+    "/page/2": 1,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7%233c03794eeb2780baa3b0e280c65a4654": 1,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb27806d973ddc3201e7cfbd": 1,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27804a91c8cc92b1c59b71": 1,
-    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 1,
     "/article/3b83794e-eb27-8018-b607-ca302d840e14": 1,
     "/article/3b83794e-eb27-801d-a30b-ed7444bf67d7": 1,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 1,
@@ -16,5 +18,5 @@
     "/article/3bf3794e-eb27-80ed-952e-f82c0f9b0063": 1,
     "/article/3b93794e-eb27-80d8-a949-dfaf7fd967ef": 1
   },
-  "updatedAt": "2026-08-20T00:32:53Z"
+  "updatedAt": "2026-08-20T08:23:16Z"
 }
