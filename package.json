@@ -78,6 +78,7 @@
     "algoliasearch": "^4.25.2",
     "axios": "^1.18.1",
     "critters": "^0.0.23",
+    "dompurify": "^3.4.14",
     "feed": "^4.2.2",
     "gsap": "^3.15.0",
     "ioredis": "^5.11.1",

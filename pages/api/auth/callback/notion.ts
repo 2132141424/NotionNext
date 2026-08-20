@@ -57,8 +57,10 @@ export default async function handler(
     const params = await fetchToken(code)
 
     if (params?.status === 200) {
+      // 仅回传非敏感摘要，绝不将 access_token 等凭据写入 URL
       const redirectQuery = {
-        msg: '成功了' + JSON.stringify(params.data)
+        msg: '授权成功',
+        workspace_name: params.data.workspace_name || ''
       }
 
       // 这里将用户数据写入到Notion数据库
@@ -105,14 +107,22 @@ const fetchToken = async (code: string): Promise<NotionTokenResponse> => {
         }
       }
     )
-    console.log('OAuth身份信息', response.data)
     return {
       status: response.status,
       statusText: response.statusText,
       data: response.data
     }
   } catch (error) {
-    console.error('Error fetching token', error)
+    // 仅记录脱敏信息，避免 axios error.config 中的 Authorization 头泄露客户端密钥
+    if (axios.isAxiosError(error)) {
+      console.error(
+        'Error fetching token:',
+        error.response?.status,
+        error.response?.statusText || error.message
+      )
+    } else {
+      console.error('Error fetching token:', error)
+    }
     return {
       status: 400,
       statusText: 'failed',

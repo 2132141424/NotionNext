@@ -36,8 +36,7 @@ module.exports = {
   UMAMI_HOST: process.env.NEXT_PUBLIC_UMAMI_HOST || 'https://cloud.umami.is/script.js', // umami的服务地址
   UMAMI_ID: process.env.NEXT_PUBLIC_UMAMI_ID || '', // umami的id
   // umami 公开分享 token（用于前端展示浏览量/访客数，需在 Umami 后台开启 Share 拿到 share token）
-  UMAMI_SHARE_TOKEN:
-    process.env.NEXT_PUBLIC_UMAMI_SHARE_TOKEN || 'xwrf0SlrEZD0wA79',
+  UMAMI_SHARE_TOKEN: process.env.NEXT_PUBLIC_UMAMI_SHARE_TOKEN || '',
 
   // <---- 站点统计
 }

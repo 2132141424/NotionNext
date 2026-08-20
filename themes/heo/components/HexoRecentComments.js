@@ -3,6 +3,7 @@ import { useGlobal } from '@/lib/global'
 import { RecentComments } from '@waline/client'
 import SmartLink from '@/components/SmartLink'
 import { useEffect, useState } from 'react'
+import SafeCommentHtml from '@/components/SafeCommentHtml'
 
 /**
  * @see https://waline.js.org/guide/get-started.html
@@ -44,10 +45,7 @@ const HexoRecentComments = props => {
         comments.length > 0 &&
         comments.map(comment => (
           <div key={comment.objectId} className='pb-2 pl-1'>
-            <div
-              className='dark:text-gray-200 text-sm waline-recent-content wl-content'
-              dangerouslySetInnerHTML={{ __html: comment.comment }}
-            />
+            <SafeCommentHtml className='dark:text-gray-200 text-sm waline-recent-content wl-content' html={comment.comment} />
             <div className='dark:text-gray-400 text-gray-400  text-sm text-right cursor-pointer hover:text-red-500 hover:underline pt-1 pr-2'>
               <SmartLink
                 href={{

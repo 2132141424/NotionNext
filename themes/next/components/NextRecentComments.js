@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import SmartLink from '@/components/SmartLink'
 import { RecentComments } from '@waline/client'
 import { siteConfig } from '@/lib/config'
+import SafeCommentHtml from '@/components/SafeCommentHtml'
 
 /**
  * @see https://waline.js.org/guide/get-started.html
@@ -25,7 +26,7 @@ const NextRecentComments = (props) => {
         {onLoading && <div>Loading...<i className='ml-2 fas fa-spinner animate-spin' /></div>}
         {!onLoading && comments && comments.length === 0 && <div>No Comments</div>}
         {!onLoading && comments && comments.length > 0 && comments.map((comment) => <div key={comment.objectId} className='pb-2'>
-            <div className='dark:text-gray-300 text-gray-600 text-xs waline-recent-content wl-content' dangerouslySetInnerHTML={{ __html: comment.comment }} />
+            <SafeCommentHtml className='dark:text-gray-300 text-gray-600 text-xs waline-recent-content wl-content' html={comment.comment} />
             <div className='dark:text-gray-400 text-gray-500  text-sm text-right cursor-pointer hover:text-red-500 hover:underline pt-1'><SmartLink href={{ pathname: comment.url, hash: comment.objectId, query: { target: 'comment' } } }>--{comment.nick}</SmartLink></div>
         </div>)}
 

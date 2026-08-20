@@ -2,6 +2,7 @@ import { siteConfig } from '@/lib/config'
 import { RecentComments } from '@waline/client'
 import SmartLink from '@/components/SmartLink'
 import { useEffect, useState } from 'react'
+import SafeCommentHtml from '@/components/SafeCommentHtml'
 
 /**
  * 最近评论列表
@@ -39,10 +40,7 @@ const RecentCommentListForExample = props => {
         comments.length > 0 &&
         comments.map(comment => (
           <div key={comment.objectId} className='pb-2'>
-            <div
-              className='dark:text-gray-300 text-gray-600 text-xs waline-recent-content wl-content'
-              dangerouslySetInnerHTML={{ __html: comment.comment }}
-            />
+            <SafeCommentHtml className='dark:text-gray-300 text-gray-600 text-xs waline-recent-content wl-content' html={comment.comment} />
             <div className='dark:text-gray-400 text-gray-400  text-sm text-right cursor-pointer hover:text-red-500 hover:underline pt-1'>
               <SmartLink
                 href={{

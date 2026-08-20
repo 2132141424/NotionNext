@@ -24,11 +24,17 @@ const getClient = () => {
 
 const getClientIp = req => {
   const forwardedFor = req.headers['x-forwarded-for']
-  return String(
-    Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor || ''
+  const list = String(
+    Array.isArray(forwardedFor) ? forwardedFor.join(',') : forwardedFor || ''
   )
-    .split(',')[0]
-    .trim()
+    .split(',')
+    .map(ip => ip.trim())
+    .filter(Boolean)
+  // 取可信代理追加的最后一个值，避免客户端伪造首项绕过限流
+  if (list.length > 0) {
+    return list[list.length - 1]
+  }
+  return req.socket?.remoteAddress || ''
 }
 
 const isRateLimited = ip => {

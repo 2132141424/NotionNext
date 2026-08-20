@@ -38,17 +38,14 @@ export const getServerSideProps = async ctx => {
 
   // 授权成功的划保存下用户的workspace信息
   if (params?.status === 200) {
-    console.log('请求成功', params)
+    // 仅回传非敏感摘要，绝不将 access_token 等凭据下发到客户端
     props.redirect_query = {
-      ...params.data,
-      msg: '成功了' + JSON.stringify(params.data)
+      msg: '授权成功',
+      workspace_name: params.data.workspace_name || ''
     }
-    console.log('用户信息', JSON.stringify(params.data))
   } else if (!params) {
-    console.log('请求异常', params)
     props.redirect_query = { msg: '无效请求' }
   } else {
-    console.log('请求失败', params)
     props.redirect_query = { msg: params.statusText }
   }
 
@@ -63,7 +60,6 @@ const fetchToken = async code => {
   if (!code) {
     return '无效请求'
   }
-  console.log('Auth', code)
   const clientId = process.env.OAUTH_CLIENT_ID
   const clientSecret = process.env.OAUTH_CLIENT_SECRET
   const redirectUri = process.env.OAUTH_REDIRECT_URI
@@ -72,9 +68,6 @@ const fetchToken = async code => {
   const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
 
   try {
-    console.log(
-      `请求Code换取Token ${clientId}:${clientSecret} -- ${redirectUri}`
-    )
     const response = await axios.post(
       'https://api.notion.com/v1/oauth/token',
       {
@@ -91,10 +84,14 @@ const fetchToken = async code => {
       }
     )
 
-    console.log('Token response', response.data)
     return response
   } catch (error) {
-    console.error('Error fetching token', error)
+    // 仅记录脱敏信息，避免 axios error.config 中的 Authorization 头泄露客户端密钥
+    console.error(
+      'Error fetching token:',
+      error?.response?.status,
+      error?.response?.statusText || error?.message
+    )
   }
 }
 
