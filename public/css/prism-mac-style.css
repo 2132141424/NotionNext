@@ -10,7 +10,7 @@
   margin: 1rem 0;
   border-radius: 14px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(27, 28, 32, 0.94); /* 浅色模式下默认暗底 */
+  background: #f6f8fa; /* 浅色模式浅底 */
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 18px 44px rgba(0, 0, 0, 0.18);
   overflow: hidden;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
@@ -63,14 +63,25 @@ html.dark .code-toolbar {
   line-height: 1 !important;
   padding: 6px 8px !important;
   border-radius: 999px !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: rgba(0, 0, 0, 0.65) !important;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
+html.dark .code-toolbar .toolbar-item > button {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
 .code-toolbar .toolbar-item > button:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: #000 !important;
+}
+
+html.dark .code-toolbar .toolbar-item > button:hover {
   background: rgba(255, 255, 255, 0.2) !important;
   color: #fff !important;
 }
@@ -84,9 +95,18 @@ pre.notion-code {
   border-radius: 0 !important;
   border: none !important;
   background: transparent !important;
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: #24292f !important;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+html.dark pre.notion-code {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 覆盖 notion.css 的 dark:bg-black，让暗色模式透出容器半透明暗底 */
+html.dark .code-toolbar pre.notion-code {
+  background: transparent !important;
 }
 
 /* 5. 智能折叠 S1 极简 UI */
@@ -221,13 +241,14 @@ html.dark .collapse-panel {
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  background: rgba(27, 28, 32, 0.94) !important;
-  color: rgba(255, 255, 255, 0.9) !important;
+  background: #f6f8fa !important;
+  color: #24292f !important;
 }
 
 html.dark .collapse-panel .code-toolbar,
 html.dark .collapse-panel pre.notion-code {
   background: rgba(27, 28, 32, 0.72) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
   -webkit-backdrop-filter: saturate(140%) blur(12px);
   backdrop-filter: saturate(140%) blur(12px);
 }
@@ -427,27 +448,51 @@ html.dark .code-side-panel-drawer {
     display: none;
   }
 }
-/* 7. Prism 代码高亮补丁 (暗底优化) */
+/* 7. Prism 代码高亮补丁 (浅底/暗底自适应) */
 .code-toolbar .token.comment,
 .code-toolbar .token.prolog,
 .code-toolbar .token.doctype,
-.code-toolbar .token.cdata { color: rgba(235, 235, 245, 0.46); }
-.code-toolbar .token.punctuation { color: rgba(235, 235, 245, 0.6); }
+.code-toolbar .token.cdata { color: #6e7781; }
+.code-toolbar .token.punctuation { color: #24292f; }
 .code-toolbar .token.property,
 .code-toolbar .token.tag,
 .code-toolbar .token.boolean,
 .code-toolbar .token.number,
 .code-toolbar .token.constant,
 .code-toolbar .token.symbol,
-.code-toolbar .token.deleted { color: #7ee787; }
+.code-toolbar .token.deleted { color: #0550ae; }
 .code-toolbar .token.selector,
 .code-toolbar .token.attr-name,
 .code-toolbar .token.string,
 .code-toolbar .token.char,
 .code-toolbar .token.builtin,
-.code-toolbar .token.inserted { color: #a5d6ff; }
+.code-toolbar .token.inserted { color: #0a3069; }
 .code-toolbar .token.atrule,
 .code-toolbar .token.attr-value,
-.code-toolbar .token.keyword { color: #ff7ab2; }
+.code-toolbar .token.keyword { color: #cf222e; }
 .code-toolbar .token.function,
-.code-toolbar .token.class-name { color: #ffd479; }
+.code-toolbar .token.class-name { color: #8250df; }
+
+html.dark .code-toolbar .token.comment,
+html.dark .code-toolbar .token.prolog,
+html.dark .code-toolbar .token.doctype,
+html.dark .code-toolbar .token.cdata { color: rgba(235, 235, 245, 0.46); }
+html.dark .code-toolbar .token.punctuation { color: rgba(235, 235, 245, 0.6); }
+html.dark .code-toolbar .token.property,
+html.dark .code-toolbar .token.tag,
+html.dark .code-toolbar .token.boolean,
+html.dark .code-toolbar .token.number,
+html.dark .code-toolbar .token.constant,
+html.dark .code-toolbar .token.symbol,
+html.dark .code-toolbar .token.deleted { color: #7ee787; }
+html.dark .code-toolbar .token.selector,
+html.dark .code-toolbar .token.attr-name,
+html.dark .code-toolbar .token.string,
+html.dark .code-toolbar .token.char,
+html.dark .code-toolbar .token.builtin,
+html.dark .code-toolbar .token.inserted { color: #a5d6ff; }
+html.dark .code-toolbar .token.atrule,
+html.dark .code-toolbar .token.attr-value,
+html.dark .code-toolbar .token.keyword { color: #ff7ab2; }
+html.dark .code-toolbar .token.function,
+html.dark .code-toolbar .token.class-name { color: #ffd479; }

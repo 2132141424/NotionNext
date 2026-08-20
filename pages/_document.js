@@ -22,13 +22,8 @@ const darkModeScript = `
     if (defaultAppearance === 'dark') {
       shouldBeDark = true
     } else if (defaultAppearance === 'auto') {
-      // 检查是否在深色模式时间范围内
-      const date = new Date()
-      const hours = date.getHours()
-      const darkTimeStart = ${BLOG.APPEARANCE_DARK_TIME ? BLOG.APPEARANCE_DARK_TIME[0] : 18}
-      const darkTimeEnd = ${BLOG.APPEARANCE_DARK_TIME ? BLOG.APPEARANCE_DARK_TIME[1] : 6}
-      
-      shouldBeDark = prefersDark || (hours >= darkTimeStart || hours < darkTimeEnd)
+      // 跟随系统深浅色设置
+      shouldBeDark = prefersDark
     }
   }
   

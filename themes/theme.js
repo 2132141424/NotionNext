@@ -308,7 +308,7 @@ export const initDarkMode = (updateDarkMode, defaultDarkMode) => {
 }
 
 /**
- * 是否优先深色模式， 根据系统深色模式以及当前时间判断
+ * 是否优先深色模式， 根据系统深色模式判断
  * @returns {*}
  */
 export function isPreferDark() {
@@ -316,17 +316,8 @@ export function isPreferDark() {
     return true
   }
   if (BLOG.APPEARANCE === 'auto') {
-    // 系统深色模式或时间是夜间时，强行置为夜间模式
-    const date = new Date()
-    const prefersDarkMode = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches
-    return (
-      prefersDarkMode ||
-      (BLOG.APPEARANCE_DARK_TIME &&
-        (date.getHours() >= BLOG.APPEARANCE_DARK_TIME[0] ||
-          date.getHours() < BLOG.APPEARANCE_DARK_TIME[1]))
-    )
+    // 跟随系统深浅色设置
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
   }
   return false
 }
