@@ -1,11 +1,11 @@
 {
-  "pageviews": 165,
-  "visitors": 62,
+  "pageviews": 192,
+  "visitors": 66,
   "pages": {
-    "/": 55,
-    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 7,
-    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 2,
-    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 2,
+    "/": 58,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 8,
+    "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 3,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 3,
     "/page/2": 1,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7%233c03794eeb2780baa3b0e280c65a4654": 1,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb27806d973ddc3201e7cfbd": 1,
@@ -18,5 +18,5 @@
     "/article/3bf3794e-eb27-80ed-952e-f82c0f9b0063": 1,
     "/article/3b93794e-eb27-80d8-a949-dfaf7fd967ef": 1
   },
-  "updatedAt": "2026-08-20T08:23:16Z"
+  "updatedAt": "2026-08-20T16:20:30Z"
 }
