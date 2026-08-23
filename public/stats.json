@@ -1,9 +1,9 @@
 {
-  "pageviews": 282,
-  "visitors": 98,
+  "pageviews": 285,
+  "visitors": 101,
   "pages": {
-    "/": 81,
-    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 14,
+    "/": 83,
+    "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 15,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 4,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 3,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 3,
@@ -24,5 +24,5 @@
     "/article/3b93794e-eb27-80d8-a949-dfaf7fd967ef": 1,
     "/article/3c23794e-eb27-8011-96cc-f60ee3404341": 1
   },
-  "updatedAt": "2026-08-23T08:15:59Z"
+  "updatedAt": "2026-08-23T16:11:34Z"
 }
