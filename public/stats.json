@@ -1,8 +1,8 @@
 {
-  "pageviews": 330,
-  "visitors": 117,
+  "pageviews": 333,
+  "visitors": 119,
   "pages": {
-    "/": 86,
+    "/": 88,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 16,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 4,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 4,
@@ -46,5 +46,5 @@
     "/page/2": 1,
     "/category/技巧": 1
   },
-  "updatedAt": "2026-08-24T00:34:48Z"
+  "updatedAt": "2026-08-24T08:34:50Z"
 }
