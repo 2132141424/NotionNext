@@ -1,15 +1,15 @@
 {
-  "pageviews": 336,
-  "visitors": 121,
+  "pageviews": 344,
+  "visitors": 127,
   "pages": {
-    "/": 91,
+    "/": 98,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7": 16,
     "/article/3c03794e-eb27-80f9-b125-eefe4dcd97f7#3c03794eeb2780baa3b0e280c65a4654": 4,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a": 4,
     "/article/3bd3794e-eb27-80ab-b677-edd44c6ff07a#3bd3794eeb27803990a9c441af4a4321": 3,
     "/tag/推荐": 2,
-    "/article/3b93794e-eb27-80d8-a949-dfaf7fd967ef": 2,
     "/article/3c23794e-eb27-8011-96cc-f60ee3404341": 2,
+    "/article/3b93794e-eb27-80d8-a949-dfaf7fd967ef": 2,
     "/article/3bf3794e-eb27-80ed-952e-f82c0f9b0063": 2,
     "/article/3b83794e-eb27-80f6-b0d1-c950d9c0d017": 2,
     "/article/3b93794e-eb27-80ef-87b9-e8861c4d175d": 2,
@@ -46,5 +46,5 @@
     "/page/2": 1,
     "/category/技巧": 1
   },
-  "updatedAt": "2026-08-24T16:22:04Z"
+  "updatedAt": "2026-08-25T00:34:13Z"
 }
