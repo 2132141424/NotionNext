@@ -406,6 +406,7 @@ function TodayCard({ cRef, siteInfo }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={siteInfo?.pageCover}
+          alt={siteInfo?.title || siteInfo?.name || '站点封面'}
           id='today-card-cover'
           className={`${
             isCoverUp ? '' : ' pointer-events-none'
