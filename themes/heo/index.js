@@ -16,7 +16,6 @@ import ShareBar from '@/components/ShareBar'
 import WWAds from '@/components/WWAds'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-import { loadWowJS } from '@/lib/plugins/wow'
 import { isBrowser } from '@/lib/utils'
 import { Transition } from '@headlessui/react'
 import SmartLink from '@/components/SmartLink'
@@ -95,16 +94,6 @@ const LayoutBase = props => {
     CONFIG
   )
   const HEO_LOADING_COVER = siteConfig('HEO_LOADING_COVER', true, CONFIG)
-
-  // 加载wow动画（延迟到空闲时，避免阻塞首屏渲染）
-  useEffect(() => {
-    const loadWow = () => loadWowJS()
-    if (isBrowser && typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(loadWow, { timeout: 3000 })
-    } else {
-      setTimeout(loadWow, 2000)
-    }
-  }, [])
 
   return (
     <div

@@ -68,7 +68,7 @@ export function InfoCard(props) {
     avatarBlurEnabled
   )
   return (
-    <Card className='wow fadeInUp bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] text-[var(--heo-color-primary-text)] flex flex-col w-72 overflow-hidden relative'>
+    <Card className='bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] text-[var(--heo-color-primary-text)] flex flex-col w-72 overflow-hidden relative'>
       {/* 信息卡牌第一行 */}
       <div className='flex justify-between'>
         {/* 问候语 */}

@@ -32,7 +32,7 @@ export default function CategoryBar(props) {
   return (
     <div
       id='category-bar'
-      className={`wow fadeInUp flex flex-nowrap justify-between items-center h-12 mb-4 space-x-2 w-full lg:bg-[var(--heo-color-card)] dark:lg:bg-[var(--heo-color-card-dark)]
+      className={`flex flex-nowrap justify-between items-center h-12 mb-4 space-x-2 w-full lg:bg-[var(--heo-color-card)] dark:lg:bg-[var(--heo-color-card-dark)]
             ${border ? 'lg:border lg:hover:border dark:lg:border-gray-800 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] ' : ''}  py-2 lg:px-2 rounded-xl transition-colors duration-200`}>
       <div
         id='category-bar-items'

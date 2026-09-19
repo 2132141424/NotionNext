@@ -31,10 +31,9 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
     <article
       className={`${COVER_HOVER_ENLARGE ? 'hover:transition-all duration-150' : ''}`}>
       <div
-        data-wow-delay='.2s'
         className={
           (POST_TWO_COLS ? '2xl:h-96 2xl:flex-col' : '') +
-          ' wow fadeInUp border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col h-[23rem] md:h-52 md:flex-row  group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
+          ' border bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] flex mb-4 flex-col h-[23rem] md:h-52 md:flex-row  group w-full dark:border-gray-600 hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-300 transition-colors justify-between overflow-hidden rounded-xl'
         }>
         {/* 图片封面 */}
         {showPageCover && (
