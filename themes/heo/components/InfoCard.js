@@ -92,9 +92,6 @@ export function InfoCard(props) {
 
       <h2 className='text-3xl font-extrabold mt-3'>{siteConfig('AUTHOR')}</h2>
 
-      {/* 公告栏 */}
-      <Announcement post={notice} style={{ color: 'white !important' }} />
-
       <div className='flex justify-between'>
         <div className='flex space-x-3  hover:text-black dark:hover:text-white'>
           {/* 社交按钮 */}
