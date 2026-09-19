@@ -318,9 +318,8 @@ const LayoutSlug = props => {
             {/* 文章主体 */}
             <article id='article-wrapper'>
               {/* Notion文章主体 */}
-              <section
-                className='wow fadeInUp p-5 justify-center mx-auto'
-                data-wow-delay='.2s'>
+              {/* 正文优先：不做进场动画，直接可见，避免首屏闪动 */}
+              <section className='p-5 justify-center mx-auto'>
                 <ArticleExpirationNotice post={post} />
                 <AISummary aiSummary={post.aiSummary} />
                 <WWAds orientation='horizontal' className='w-full' />

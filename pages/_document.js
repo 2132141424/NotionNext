@@ -32,54 +32,13 @@ const darkModeScript = `
 })()
 `
 
+// 正文优先：移除全屏加载遮罩，静态导出 HTML 已含正文，应直接呈现。
+// 仅保留一个极轻量的首帧背景底色，避免白屏闪烁，不影响阅读。
 const preloadHtml = `
-<div id="preload-cover" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f9fe;">
-  <div style="text-align:center;">
-    <img id="preload-icon" src="${BLOG.BLOG_FAVICON || '/favicon.ico'}" alt="logo" style="width:64px;height:64px;margin-bottom:28px;border-radius:12px;" />
-    <div style="width:180px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;">
-      <div id="preload-progress" style="height:100%;width:0%;background:#4f65f0;border-radius:2px;transition:width 0.4s ease;"></div>
-    </div>
-  </div>
-</div>
 <style>
-  .dark #preload-cover { background:#18171d !important; }
-  .dark #preload-progress { background:#dca846 !important; }
+  html { background: #f7f9fe; }
+  html.dark { background: #18171d; }
 </style>
-<script>
-(function(){
-  var c=document.getElementById('preload-cover');
-  if(!c) return;
-  var p=document.getElementById('preload-progress');
-  var v=0;
-  function set(pct){ if(pct>v){ v=pct; p.style.width=pct+'%'; } }
-  function hide(){
-    if(c.dataset.done) return;
-    c.dataset.done='1';
-    set(100);
-    setTimeout(function(){
-      c.style.opacity='0';
-      c.style.transition='opacity 0.5s ease';
-      setTimeout(function(){
-        if(c.parentNode) c.parentNode.removeChild(c);
-        window.dispatchEvent(new Event('scroll'));
-      }, 500);
-    }, 200);
-  }
-  set(8);
-  // 关键脚本就绪(React 水合开始)后即可淡出
-  document.addEventListener('DOMContentLoaded',function(){ set(50); });
-  // DOM 就绪后再额外等待极短的 100ms，让首屏可交互，随后淡出，不等 window.load（避免被慢图/超时图阻塞）
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',function(){
-      set(70);
-      setTimeout(hide, 800);
-    });
-  } else {
-    set(70);
-    setTimeout(hide, 800);
-  }
-})();
-</script>
 `
 
 class MyDocument extends Document {
