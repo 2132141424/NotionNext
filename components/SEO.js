@@ -343,6 +343,54 @@ const getIsoTime = value => {
   return date.toISOString()
 }
 
+// 搜索引擎建议的描述长度上限，超出会被截断
+const META_DESCRIPTION_MAX_LENGTH = 160
+// 低于该长度视为过短，需要补充页面上下文
+const META_DESCRIPTION_MIN_LENGTH = 60
+
+const normalizeDescriptionText = text =>
+  String(text ?? '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+/**
+ * 组合页面描述：过滤空值、压缩空白、超长截断
+ * 保证各页面的 description 互不相同且长度充足，避免被判为重复/过短
+ */
+const joinDescriptionText = (...parts) => {
+  const text = parts.map(normalizeDescriptionText).filter(Boolean).join(' ')
+  if (text.length <= META_DESCRIPTION_MAX_LENGTH) return text
+  return `${text.slice(0, META_DESCRIPTION_MAX_LENGTH - 1).trimEnd()}…`
+}
+
+/**
+ * 文章/单页描述：优先用摘要，摘要缺失或过短时用标题、分类、标签补足
+ */
+const buildPostDescription = (post, siteInfo) => {
+  const summary = normalizeDescriptionText(post?.summary)
+  if (summary.length >= META_DESCRIPTION_MIN_LENGTH) {
+    return joinDescriptionText(summary)
+  }
+
+  const category = Array.isArray(post?.category)
+    ? post?.category?.[0]
+    : post?.category
+  const tags = Array.isArray(post?.tags) ? post?.tags?.slice(0, 5)?.join('、') : ''
+  const detail = [
+    post?.title ? `本文《${post.title}》` : '',
+    category ? `属于「${category}」分类` : '',
+    tags ? `涉及 ${tags} 等主题` : ''
+  ]
+    .filter(Boolean)
+    .join('，')
+
+  return joinDescriptionText(
+    summary,
+    detail ? `${detail}。` : '',
+    siteInfo?.description
+  )
+}
+
 /**
  * 获取SEO信息
  * @param {*} props
@@ -353,11 +401,16 @@ const getSEOMeta = (props, router, locale) => {
   const keyword = router?.query?.s
 
   const TITLE = siteConfig('TITLE')
+  const siteTitle = siteInfo?.title
+  const siteDescription = siteInfo?.description
   switch (router.route) {
     case '/':
       return {
         title: `${siteInfo?.title} | ${siteInfo?.description}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          siteDescription,
+          '提供文章归档、分类与标签浏览，持续更新原创文章。'
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: '',
         type: 'website'
@@ -365,7 +418,11 @@ const getSEOMeta = (props, router, locale) => {
     case '/archive':
       return {
         title: `${locale.NAV.ARCHIVE} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `${siteTitle} 文章归档`,
+          siteDescription,
+          '按发布时间浏览全部文章。'
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'archive',
         type: 'website'
@@ -373,7 +430,10 @@ const getSEOMeta = (props, router, locale) => {
     case '/page/[page]':
       return {
         title: `${page} | Page | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `${siteTitle} 文章列表第 ${page} 页`,
+          siteDescription
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'page/' + page,
         type: 'website'
@@ -381,7 +441,10 @@ const getSEOMeta = (props, router, locale) => {
     case '/category/[category]':
       return {
         title: `${category} | ${locale.COMMON.CATEGORY} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `${siteTitle}「${category}」分类下的全部文章`,
+          siteDescription
+        ),
         slug: 'category/' + category,
         image: `${siteInfo?.pageCover}`,
         type: 'website'
@@ -389,7 +452,10 @@ const getSEOMeta = (props, router, locale) => {
     case '/category/[category]/page/[page]':
       return {
         title: `${category} | ${locale.COMMON.CATEGORY} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `${siteTitle}「${category}」分类下的文章第 ${page} 页`,
+          siteDescription
+        ),
         slug: 'category/' + category,
         image: `${siteInfo?.pageCover}`,
         type: 'website'
@@ -398,7 +464,10 @@ const getSEOMeta = (props, router, locale) => {
     case '/tag/[tag]/page/[page]':
       return {
         title: `${tag} | ${locale.COMMON.TAGS} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `「${tag}」标签下的全部文章`,
+          siteDescription
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'tag/' + tag,
         type: 'website'
@@ -406,7 +475,10 @@ const getSEOMeta = (props, router, locale) => {
     case '/search':
       return {
         title: `${keyword || ''}${keyword ? ' | ' : ''}${locale.NAV.SEARCH} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `在 ${siteTitle} 站内搜索文章`,
+          siteDescription
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'search',
         type: 'website'
@@ -415,7 +487,12 @@ const getSEOMeta = (props, router, locale) => {
     case '/search/[keyword]/page/[page]':
       return {
         title: `${keyword || ''}${keyword ? ' | ' : ''}${locale.NAV.SEARCH} | ${siteInfo?.title}`,
-        description: TITLE,
+        description: joinDescriptionText(
+          keyword
+            ? `与「${keyword}」相关的搜索结果`
+            : `在 ${siteTitle} 站内搜索文章`,
+          siteDescription
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'search/' + (keyword || ''),
         type: 'website'
@@ -428,7 +505,11 @@ const getSEOMeta = (props, router, locale) => {
     case '/tag':
       return {
         title: `${locale.COMMON.TAGS} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `${siteTitle} 文章标签`,
+          siteDescription,
+          '按标签浏览全部文章。'
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'tag',
         type: 'website'
@@ -436,7 +517,11 @@ const getSEOMeta = (props, router, locale) => {
     case '/category':
       return {
         title: `${locale.COMMON.CATEGORY} | ${siteInfo?.title}`,
-        description: `${siteInfo?.description}`,
+        description: joinDescriptionText(
+          `${siteTitle} 文章分类`,
+          siteDescription,
+          '按分类浏览全部文章。'
+        ),
         image: `${siteInfo?.pageCover}`,
         slug: 'category',
         type: 'website'
@@ -449,7 +534,7 @@ const getSEOMeta = (props, router, locale) => {
         title: post
           ? `${post?.title} | ${siteInfo?.title}`
           : `${siteInfo?.title} | loading`,
-        description: post?.summary,
+        description: buildPostDescription(post, siteInfo),
         type: post?.type,
         slug: post?.slug,
         image: post?.pageCoverThumbnail || `${siteInfo?.pageCover}`,
