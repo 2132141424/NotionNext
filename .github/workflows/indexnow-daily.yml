@@ -33,18 +33,23 @@ jobs:
           comm -23 /tmp/current.txt /tmp/submitted.txt > /tmp/new.txt
 
           # 只提交新增 URL，不重复提交已提交过的 URL
+          : > /tmp/ok.txt
           if [ -s /tmp/new.txt ]; then
             while read -r url; do
               [ -z "$url" ] && continue
               code=$(curl -s -o /dev/null -w "%{http_code}" -G "https://www.bing.com/indexnow" --data-urlencode "url=$url" --data-urlencode "key=$KEY" --data-urlencode "keyLocation=$KEY_LOCATION")
               echo "$code $url"
+              case "$code" in
+                2*) echo "$url" >> /tmp/ok.txt ;;
+              esac
             done < /tmp/new.txt
           else
             echo "No new URLs, skip submit"
           fi
 
-          # 更新已提交记录
-          cat "$SUBMITTED" /tmp/current.txt | sort -u > /tmp/merged.txt
+          # 只把提交成功的 URL 记入已提交记录，失败的留到下次重试，
+          # 避免配额或网络异常时把未提交成功的页面永久标记为已提交
+          cat "$SUBMITTED" /tmp/ok.txt | sort -u > /tmp/merged.txt
           mv /tmp/merged.txt "$SUBMITTED"
 
       - name: Fetch Umami stats snapshot
