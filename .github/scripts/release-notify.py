@@ -8,6 +8,7 @@ import argparse
 import datetime
 import email.utils
 import html
+import json
 import re
 import subprocess
 import sys
@@ -65,6 +66,24 @@ def tag_of(link):
     return 'post-' + link.rstrip('/').rsplit('/', 1)[-1]
 
 
+def existing_release_titles():
+    """已发布过的 release 标题。
+
+    文章的 slug 会变（Notion 页面被重建时会换一个页面 ID），此时旧链接虽然
+    还在登记文件里、新链接却成了「陌生链接」，会被当成新文章再发一次通知。
+    用标题兜底：同一篇文章只发一次。
+    """
+    result = subprocess.run(['gh', 'release', 'list', '--limit', '200',
+                             '--json', 'name'],
+                            capture_output=True, text=True)
+    if result.returncode != 0:
+        return set()
+    try:
+        return {r['name'].strip() for r in json.loads(result.stdout) if r.get('name')}
+    except (ValueError, TypeError):
+        return set()
+
+
 def publish(item, dry_run):
     tag = tag_of(item['link'])
     if dry_run:
@@ -120,7 +139,12 @@ def main():
 
     release_links = {i['link'] for i in to_release}
     recorded = [i['link'] for i in fresh if i['link'] not in release_links]
+    notified_titles = existing_release_titles()
     for item in to_release:
+        if item['title'] and item['title'] in notified_titles:
+            print(f'  「{item["title"]}」已通知过（链接有变动），跳过并登记')
+            recorded.append(item['link'])
+            continue
         if publish(item, args.dry_run):
             recorded.append(item['link'])
 

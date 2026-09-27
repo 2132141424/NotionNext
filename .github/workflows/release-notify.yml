@@ -41,8 +41,16 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if [ -z "$(git status --porcelain released-posts.txt)" ]; then
             echo "No changes, skip commit"
-          else
-            git add released-posts.txt
-            git commit -m "chore: record released posts for subscriber notifications"
-            git push
+            exit 0
           fi
+          git add released-posts.txt
+          git commit -m "chore: record released posts for subscriber notifications"
+          # 通知提交常与 Notion 内容更新提交撞车，推之前先变基，失败再重试
+          for i in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "登记文件推送失败" >&2
+          exit 1
