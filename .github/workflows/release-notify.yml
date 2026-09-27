@@ -4,8 +4,11 @@ name: Release Notify (新文章 → 邮件通知订阅者)
 # 本工作流检测到新文章后发布 release，GitHub 会把通知邮件发给订阅者，
 # 送达率、退订、隐私都由 GitHub 负责，本站无需后端。
 on:
+  # 部署成功后由 Vercel 的 GitHub 集成（vercel[bot]）发来 deployment_status 事件，
+  # 触发延迟通常在几分钟内，不必等定时任务
+  deployment_status:
   schedule:
-    # 每天 UTC 02:00（北京时间 10:00），与 IndexNow 的 0/8/16 点错开，避免并发 push
+    # 兜底：万一某次部署没有产生 deployment_status 事件
     - cron: '0 2 * * *'
   workflow_dispatch:
 
@@ -18,10 +21,14 @@ concurrency:
 
 jobs:
   notify:
+    # 部署失败时跳过；定时与手动触发不受影响
+    if: github.event_name != 'deployment_status' || github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Publish release for new posts
         env:
