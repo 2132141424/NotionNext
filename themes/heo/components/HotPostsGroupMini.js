@@ -1,33 +1,29 @@
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-// import Image from 'next/image'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
 
 /**
- * 最新文章列表
- * @param posts 所有文章数据
- * @param sliceCount 截取展示的数量 默认6
+ * 热门文章列表（按浏览量倒序）
+ * @param hotPosts 已按浏览量排序的文章数据
  * @constructor
  */
-export default function LatestPostsGroupMini({ latestPosts, siteInfo }) {
-  // 获取当前路径
+export default function HotPostsGroupMini({ hotPosts, siteInfo }) {
   const currentPath = useRouter().asPath
   const { locale } = useGlobal()
   const SUB_PATH = siteConfig('SUB_PATH', '')
 
-  return latestPosts ? (
+  return hotPosts?.length ? (
     <>
       <div className=' mb-2 px-1 flex flex-nowrap justify-between'>
         <div>
-          <i className='mr-2 fas fas fa-history' />
-          {locale.COMMON.LATEST_POSTS}
+          <i className='mr-2 fa-solid fa-fire-flame-curved' />
+          {locale.COMMON.HOT_POSTS}
         </div>
       </div>
-      {latestPosts.map(post => {
-        const selected =
-          currentPath === `${SUB_PATH}/${post.slug}`
+      {hotPosts.map(post => {
+        const selected = currentPath === `${SUB_PATH}/${post.slug}`
         const headerImage = post?.pageCoverThumbnail
           ? post.pageCoverThumbnail
           : siteInfo?.pageCover
@@ -53,7 +49,9 @@ export default function LatestPostsGroupMini({ latestPosts, siteInfo }) {
               }>
               <div>
                 <div className='line-clamp-2 menu-link'>{post.title}</div>
-                <div className='text-gray-400'>{post.lastEditedDay}</div>
+                <div className='text-gray-400'>
+                  {post.pageViews ?? 0} {locale.COMMON.VIEWS}
+                </div>
               </div>
             </div>
           </SmartLink>

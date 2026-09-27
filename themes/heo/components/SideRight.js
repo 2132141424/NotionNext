@@ -4,7 +4,7 @@ import { AnalyticsCard } from './AnalyticsCard'
 import Card from './Card'
 import Catalog from './Catalog'
 import { InfoCard } from './InfoCard'
-import LatestPostsGroupMini from './LatestPostsGroupMini'
+import HotPostsGroupMini from './HotPostsGroupMini'
 import TagGroups from './TagGroups'
 import TouchMeCard from './TouchMeCard'
 
@@ -49,12 +49,12 @@ export default function SideRight(props) {
           <TouchMeCard />
         </div>
 
-        {/* 最新文章列表 */}
+        {/* 热门文章列表 */}
         <div
           className={
             'border hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] duration-200 dark:border-gray-700 dark:bg-[var(--heo-color-card-dark)] dark:text-white rounded-xl lg:p-6 p-4 hidden lg:block bg-[var(--heo-color-card)]'
           }>
-          <LatestPostsGroupMini {...props} />
+          <HotPostsGroupMini {...props} />
         </div>
 
         {rightAreaSlot}
