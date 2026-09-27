@@ -1,0 +1,41 @@
+name: Release Notify (新文章 → 邮件通知订阅者)
+
+# 读者在仓库页面点 Watch → Releases only 即可订阅。
+# 本工作流检测到新文章后发布 release，GitHub 会把通知邮件发给订阅者，
+# 送达率、退订、隐私都由 GitHub 负责，本站无需后端。
+on:
+  schedule:
+    # 每天 UTC 02:00（北京时间 10:00），与 IndexNow 的 0/8/16 点错开，避免并发 push
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-notify
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish release for new posts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/scripts/release-notify.py
+
+      - name: Commit tracking file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -z "$(git status --porcelain released-posts.txt)" ]; then
+            echo "No changes, skip commit"
+          else
+            git add released-posts.txt
+            git commit -m "chore: record released posts for subscriber notifications"
+            git push
+          fi
