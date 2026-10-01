@@ -61,6 +61,10 @@ const BLOG = {
   // 文章列表相关设置
   CAN_COPY: process.env.NEXT_PUBLIC_CAN_COPY || true, // 是否允许复制页面内容，默认允许；可被文章属性 CAN_COPY / ext.CAN_COPY 覆盖。
 
+  // /write 写作页的图床设置（Cloudinary 免签名上传，只用到 cloud name 和 upload preset，不涉及 api secret）
+  CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '', // Cloudinary 的 cloud name，在控制台首页可以看到
+  CLOUDINARY_UPLOAD_PRESET: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '', // 需要是 unsigned 类型的 upload preset
+
   ...require('./conf/techgrow.config'), // 公众号导流插件（TechGrow）
 
   // 侧栏布局 是否反转(左变右,右变左) 已支持主题: hexo next medium fukasawa example

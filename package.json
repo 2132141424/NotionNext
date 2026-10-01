@@ -26,6 +26,7 @@
     "build-all-in-dev": "cross-env VERCEL_ENV=production next build",
     "version": "echo $npm_package_version",
     "bump-patch-version": "node scripts/bump-package-patch-version.js",
+    "sync-vditor": "node scripts/sync-vditor.js",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
@@ -95,7 +96,8 @@
     "react-hotkeys-hook": "^4.6.2",
     "react-notion-x": "7.10.0",
     "react-tweet-embed": "~2.0.0",
-    "remixicon-react": "^1.0.0"
+    "remixicon-react": "^1.0.0",
+    "vditor": "^4.0.0"
   },
   "devDependencies": {
     "@ai-sdk/google": "^4.0.26",
