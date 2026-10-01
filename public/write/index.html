@@ -475,9 +475,24 @@
               ],
               upload: {
                 accept: 'image/*',
+                // Vditor 的 handler 返回字符串只会被当成提示弹出，不会插入图片，
+                // 所以这里自己把上传结果拼成 Markdown 插进编辑器
                 handler: function (files) {
-                  return uploadToCloudinary(files).then(function (result) {
-                    return JSON.stringify(result)
+                  uploadToCloudinary(files).then(function (result) {
+                    var succMap = (result.data && result.data.succMap) || {}
+                    var errFiles = (result.data && result.data.errFiles) || []
+                    var md = ''
+                    Object.keys(succMap).forEach(function (name) {
+                      md += '![' + name + '](' + succMap[name] + ')\n'
+                    })
+                    if (md) {
+                      vditor.insertValue(md)
+                    }
+                    if (errFiles.length > 0) {
+                      setStatus(result.msg || '有 ' + errFiles.length + ' 张图片上传失败')
+                    } else if (md) {
+                      setStatus('图片已上传到图床')
+                    }
                   })
                 }
               },
