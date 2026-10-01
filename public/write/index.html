@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>写作 · 水鱼之家</title>
+    <style>
+      :root {
+        --c-primary: #4f65f0;
+        --c-primary-hover: #4f46e5;
+        --c-primary-text: #ffffff;
+        --c-bg: #f7f9fe;
+        --c-card: #ffffff;
+        --c-card-muted: #f1f3f8;
+        --c-border: #4f46e5;
+        --c-text: #000000;
+        --c-text-secondary: #4b5563;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --c-bg: #18171d;
+          --c-card: #1e1e1e;
+          --c-card-muted: #18171d;
+          --c-border: #ca8a04;
+          --c-text: #f3f4f6;
+          --c-text-secondary: #d1d5db;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--c-bg);
+        color: var(--c-text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+          'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+
+      .top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .top h1 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .top a {
+        color: var(--c-primary-hover);
+        font-size: 0.875rem;
+        text-decoration: none;
+      }
+
+      .top a:hover {
+        text-decoration: underline;
+      }
+
+      .desc {
+        margin: 6px 0 16px;
+        color: var(--c-text-secondary);
+        font-size: 0.875rem;
+      }
+
+      .card {
+        padding: 16px;
+        border: 1px solid var(--c-border);
+        border-radius: 12px;
+        background: var(--c-card);
+      }
+
+      .bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      button {
+        padding: 8px 16px;
+        border: 1px solid var(--c-border);
+        border-radius: 8px;
+        background: transparent;
+        color: var(--c-text);
+        font: inherit;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      button:hover:not(:disabled) {
+        color: var(--c-primary-hover);
+      }
+
+      button.primary {
+        border-color: var(--c-primary);
+        background: var(--c-primary);
+        color: var(--c-primary-text);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+
+      button.primary:hover:not(:disabled) {
+        background: var(--c-primary-hover);
+        color: var(--c-primary-text);
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .status {
+        color: var(--c-text-secondary);
+        font-size: 0.875rem;
+      }
+
+      .notice {
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        border: 1px dashed var(--c-border);
+        border-radius: 8px;
+        color: var(--c-text-secondary);
+        font-size: 0.875rem;
+      }
+
+      code {
+        padding: 1px 4px;
+        border-radius: 4px;
+        background: var(--c-card-muted);
+        font-size: 0.85em;
+      }
+
+      /* 把 Vditor 的配色映射到上面的变量，跟博客主题保持一套色板 */
+      #write-page .vditor {
+        border: 1px solid var(--c-border);
+        border-radius: 12px;
+        background: var(--c-card);
+        font-family: inherit;
+      }
+
+      #write-page .vditor-toolbar {
+        border-bottom: 1px solid var(--c-border);
+        border-radius: 12px 12px 0 0;
+        background: var(--c-card-muted);
+      }
+
+      #write-page .vditor-toolbar__item .vditor-tooltipped,
+      #write-page .vditor-toolbar__divider {
+        color: var(--c-text);
+      }
+
+      #write-page .vditor-toolbar__item .vditor-tooltipped:hover {
+        background: transparent;
+        color: var(--c-primary-hover);
+      }
+
+      #write-page .vditor-reset {
+        color: var(--c-text);
+        font-family: inherit;
+      }
+
+      #write-page .vditor-ir,
+      #write-page .vditor-sv,
+      #write-page .vditor-wysiwyg,
+      #write-page .vditor-ir pre.vditor-reset,
+      #write-page .vditor-wysiwyg pre.vditor-reset {
+        background: var(--c-card);
+      }
+
+      #write-page .vditor-reset a,
+      #write-page .vditor-ir__marker {
+        color: var(--c-primary-hover);
+      }
+
+      #write-page .vditor-reset blockquote {
+        border-left: 4px solid var(--c-border);
+        color: var(--c-text-secondary);
+      }
+
+      #write-page .vditor-reset code:not(.hljs) {
+        background: var(--c-card-muted);
+        color: var(--c-primary-hover);
+      }
+
+      #write-page .vditor-reset table tr {
+        background: var(--c-card);
+      }
+
+      #write-page .vditor-reset table th,
+      #write-page .vditor-reset table td {
+        border-color: var(--c-border);
+      }
+
+      #write-page .vditor-counter,
+      #write-page .vditor-resize {
+        color: var(--c-text-secondary);
+      }
+
+      #write-page .vditor-resize--selected,
+      #write-page .vditor-resize:hover {
+        background: var(--c-primary);
+      }
+
+      #write-page .vditor-panel,
+      #write-page .vditor-hint {
+        border: 1px solid var(--c-border);
+        background: var(--c-card);
+        color: var(--c-text);
+      }
+
+      #write-page .vditor-hint--current,
+      #write-page .vditor-hint button:hover {
+        background: var(--c-primary);
+        color: var(--c-primary-text);
+      }
+
+      #write-page .vditor-preview {
+        background: var(--c-card);
+      }
+
+      /* 深色背景下给图片一点圆角，避免白图糊成一片 */
+      #write-page .vditor-reset img {
+        max-width: 100%;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <h1>写作</h1>
+        <a href="/">← 返回博客</a>
+      </div>
+      <p class="desc">
+        用 Markdown 写作，粘贴或拖入的图片会自动上传到图床；写完点「复制富文本」粘贴进
+        Notion，图片会被 Notion 抓取转存。
+      </p>
+
+      <div class="card" id="write-page">
+        <div class="bar">
+          <button type="button" class="primary" id="btn-rich" disabled>
+            复制富文本（推荐）
+          </button>
+          <button type="button" id="btn-md" disabled>复制 Markdown</button>
+          <button type="button" id="btn-clear" disabled>清空草稿</button>
+          <span class="status" id="status"></span>
+        </div>
+
+        <div class="notice" id="notice" hidden>
+          还没有配置图床：在本文件顶部填好 <code>cloudName</code> 和
+          <code>uploadPreset</code> 后，图片才会自动上传（编辑和复制 Markdown 不受影响）。
+        </div>
+
+        <div id="editor"></div>
+      </div>
+    </div>
+
+    <script>
+      ;(function () {
+        // ===== 图床配置 =====
+        // 在 Cloudinary 后台创建一个 unsigned 类型的 upload preset，把 cloud name 和 preset 填到这里
+        var cloudName = ''
+        var uploadPreset = ''
+        // ===================
+
+        var VDITOR_BASE = new URL('../vditor', document.baseURI).href.replace(
+          /\/+$/,
+          ''
+        )
+        var CONTENT_THEME_PATH = VDITOR_BASE + '/dist/css/content-theme'
+        var DRAFT_ID = 'waterfish-write-draft'
+
+        var elEditor = document.getElementById('editor')
+        var elStatus = document.getElementById('status')
+        var elNotice = document.getElementById('notice')
+        var btnRich = document.getElementById('btn-rich')
+        var btnMd = document.getElementById('btn-md')
+        var btnClear = document.getElementById('btn-clear')
+
+        var dark = !!(
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        )
+
+        if (!cloudName || !uploadPreset) {
+          elNotice.hidden = false
+        }
+
+        var vditor = null
+
+        function setStatus(msg) {
+          elStatus.textContent = msg || ''
+        }
+
+        function loadVditor() {
+          if (window.Vditor) return Promise.resolve(window.Vditor)
+          return new Promise(function (resolve, reject) {
+            if (!document.getElementById('vditor-style')) {
+              var link = document.createElement('link')
+              link.id = 'vditor-style'
+              link.rel = 'stylesheet'
+              link.href = VDITOR_BASE + '/dist/index.css'
+              document.head.appendChild(link)
+            }
+            var script = document.createElement('script')
+            script.src = VDITOR_BASE + '/dist/index.min.js'
+            script.onload = function () {
+              resolve(window.Vditor)
+            }
+            script.onerror = function () {
+              reject(new Error('Vditor 资源加载失败'))
+            }
+            document.head.appendChild(script)
+          })
+        }
+
+        function uploadToCloudinary(files) {
+          var errFiles = []
+          var succMap = {}
+
+          if (!cloudName || !uploadPreset) {
+            return Promise.resolve({
+              msg: '还没有配置图床',
+              code: 1,
+              data: {
+                errFiles: files.map(function (f) {
+                  return f.name
+                }),
+                succMap: succMap
+              }
+            })
+          }
+
+          var tasks = files.map(function (file) {
+            var form = new FormData()
+            form.append('file', file)
+            form.append('upload_preset', uploadPreset)
+            return fetch(
+              'https://api.cloudinary.com/v1_1/' + cloudName + '/image/upload',
+              { method: 'POST', body: form }
+            )
+              .then(function (res) {
+                return res.json().catch(function () {
+                  return {}
+                })
+              })
+              .then(function (data) {
+                if (!data || !data.secure_url) {
+                  throw new Error(
+                    (data && data.error && data.error.message) || '上传失败'
+                  )
+                }
+                succMap[file.name] = data.secure_url
+              })
+              .catch(function (e) {
+                console.warn('[write] 图片上传失败', file.name, e)
+                errFiles.push(file.name)
+              })
+          })
+
+          return Promise.all(tasks).then(function () {
+            return { msg: '', code: 0, data: { errFiles: errFiles, succMap: succMap } }
+          })
+        }
+
+        function copyPlainText(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text)
+          }
+          return new Promise(function (resolve) {
+            var ta = document.createElement('textarea')
+            ta.value = text
+            ta.style.position = 'fixed'
+            ta.style.left = '-9999px'
+            document.body.appendChild(ta)
+            ta.select()
+            document.execCommand('copy')
+            document.body.removeChild(ta)
+            resolve()
+          })
+        }
+
+        function copyRichText(html, text) {
+          if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+            return navigator.clipboard.write([
+              new ClipboardItem({
+                'text/html': new Blob([html], { type: 'text/html' }),
+                'text/plain': new Blob([text], { type: 'text/plain' })
+              })
+            ])
+          }
+          return new Promise(function (resolve) {
+            var holder = document.createElement('div')
+            holder.contentEditable = 'true'
+            holder.innerHTML = html
+            holder.style.position = 'fixed'
+            holder.style.left = '-9999px'
+            document.body.appendChild(holder)
+            var range = document.createRange()
+            range.selectNodeContents(holder)
+            var selection = window.getSelection()
+            selection.removeAllRanges()
+            selection.addRange(range)
+            document.execCommand('copy')
+            selection.removeAllRanges()
+            document.body.removeChild(holder)
+            resolve()
+          })
+        }
+
+        loadVditor()
+          .then(function (Vditor) {
+            vditor = new Vditor(elEditor, {
+              cdn: VDITOR_BASE,
+              height: 'calc(100vh - 18rem)',
+              minHeight: 420,
+              mode: 'ir',
+              icon: 'ant',
+              theme: dark ? 'dark' : 'classic',
+              placeholder: '在这里用 Markdown 写作，写完点上面的按钮复制到 Notion…',
+              cache: { enable: true, id: DRAFT_ID },
+              counter: { enable: true },
+              outline: { enable: false },
+              toolbarConfig: { pin: true },
+              preview: {
+                theme: {
+                  current: dark ? 'dark' : 'light',
+                  path: CONTENT_THEME_PATH
+                },
+                hljs: { style: dark ? 'github-dark' : 'github' }
+              },
+              toolbar: [
+                'headings',
+                'bold',
+                'italic',
+                'strike',
+                '|',
+                'list',
+                'ordered-list',
+                'check',
+                'quote',
+                '|',
+                'code',
+                'inline-code',
+                'link',
+                'table',
+                '|',
+                'upload',
+                'undo',
+                'redo',
+                '|',
+                'fullscreen',
+                'preview'
+              ],
+              upload: {
+                accept: 'image/*',
+                handler: function (files) {
+                  return uploadToCloudinary(files).then(function (result) {
+                    return JSON.stringify(result)
+                  })
+                }
+              },
+              after: function () {
+                btnRich.disabled = false
+                btnMd.disabled = false
+                btnClear.disabled = false
+              }
+            })
+          })
+          .catch(function (e) {
+            console.error('[write] Vditor 初始化失败', e)
+            setStatus('编辑器加载失败，请刷新页面重试')
+          })
+
+        btnRich.addEventListener('click', function () {
+          if (!vditor) return
+          var html = vditor.getHTML()
+          if (!html) {
+            setStatus('还没有内容')
+            return
+          }
+          copyRichText(html, vditor.getValue())
+            .then(function () {
+              setStatus('富文本已复制，粘贴进 Notion 会自动抓取图片')
+            })
+            .catch(function (e) {
+              console.error('[write] 复制富文本失败', e)
+              setStatus('复制失败，请手动选中后复制')
+            })
+        })
+
+        btnMd.addEventListener('click', function () {
+          if (!vditor) return
+          var value = vditor.getValue()
+          if (!value) {
+            setStatus('还没有内容')
+            return
+          }
+          copyPlainText(value)
+            .then(function () {
+              setStatus('Markdown 已复制')
+            })
+            .catch(function () {
+              setStatus('复制失败')
+            })
+        })
+
+        btnClear.addEventListener('click', function () {
+          if (!vditor) return
+          if (!window.confirm('确定清空当前草稿？该操作不可撤销。')) return
+          vditor.setValue('')
+          vditor.clearCache()
+          setStatus('草稿已清空')
+        })
+      })()
+    </script>
+  </body>
+</html>
