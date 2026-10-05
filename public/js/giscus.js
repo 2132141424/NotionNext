@@ -2,6 +2,9 @@
 ;(function () {
   var baseUrl = 'https://giscus.app'
   var giscusIframe = null
+  var giscusParams = null
+  var giscusLangPath = ''
+  var localStorageSession = null
 
   // 错误日志
   function handleError(a) {
@@ -27,7 +30,7 @@
     //   var k = new URL(m.src).origin
     let dataset = new URL(location.href)
     let paramsSession = dataset.searchParams.get('giscus') || ''
-    const localStorageSession = localStorage.getItem('giscus-session')
+    localStorageSession = localStorage.getItem('giscus-session')
     dataset.searchParams.delete('giscus')
     dataset.hash = ''
     let url = dataset.toString()
@@ -88,11 +91,12 @@
     const q =
       (paramsSession = document.querySelector('.giscus')) && paramsSession.id
     q && (params.origin = ''.concat(url, '#').concat(q))
-    url = dataset.lang ? '/'.concat(dataset.lang) : ''
+    giscusLangPath = dataset.lang ? '/'.concat(dataset.lang) : ''
     url = ''
       .concat(baseUrl)
-      .concat(url, '/widget?')
+      .concat(giscusLangPath, '/widget?')
       .concat(new URLSearchParams(params))
+    giscusParams = params
     dataset = dataset.loading === 'lazy' ? 'lazy' : void 0
 
     // 创建iframe
@@ -128,6 +132,19 @@
         paramsSession.setAttribute('class', 'giscus'),
         paramsSession.appendChild(giscusIframe),
         giscusContainer.insertAdjacentElement('afterend', paramsSession)
+  }
+
+  // 登录态失效时清空 session 并让 iframe 以未登录状态重新加载
+  // 对应官方 client.js 里的 p()，重构为 React 挂载时被漏掉了
+  function p() {
+    if (!giscusIframe || !giscusParams) {
+      return
+    }
+    delete giscusParams.session
+    giscusIframe.src = ''
+      .concat(baseUrl)
+      .concat(giscusLangPath, '/widget?')
+      .concat(new URLSearchParams(giscusParams))
   }
 
   // 处理接收消息

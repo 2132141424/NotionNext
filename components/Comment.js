@@ -62,6 +62,10 @@ const Comment = ({ frontMatter, className }) => {
     if (!hasGiscus && !scrollComment) {
       return
     }
+    // Giscus OAuth 回调页必须立刻挂载评论区，否则 ?giscus= 里的登录态会被 URL 清理逻辑丢掉
+    if (hasGiscus) {
+      setShouldLoad(true)
+    }
     if (scrollComment && !hasGiscus) {
       const cleanPath = stripTransientQueryParamsFromAsPath(router.asPath)
       window.history.replaceState(window.history.state, '', cleanPath)
