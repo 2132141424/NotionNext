@@ -67,6 +67,7 @@ const ExternalPlugin = props => {
     NOTION_CONFIG
   )
   const CHATBASE_ID = siteConfig('CHATBASE_ID', null, NOTION_CONFIG)
+  const AI_CHAT_ENABLE = siteConfig('AI_CHAT_ENABLE', null, NOTION_CONFIG)
   const COMMENT_DAO_VOICE_ID = siteConfig(
     'COMMENT_DAO_VOICE_ID',
     null,
@@ -124,7 +125,6 @@ const ExternalPlugin = props => {
   // 默认关闭NProgress
   const ENABLE_NPROGRSS = siteConfig('ENABLE_NPROGRSS', false)
   const COZE_BOT_ID = siteConfig('COZE_BOT_ID')
-  const DOCS_CHAT_API = siteConfig('DOCS_CHAT_API')
   const HILLTOP_ADS_META_ID = siteConfig(
     'HILLTOP_ADS_META_ID',
     null,
@@ -272,7 +272,7 @@ const ExternalPlugin = props => {
       {ENABLE_NPROGRSS && <LoadingProgress />}
       {pluginsIdle && <AosAnimation />}
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && <LA51 />}
-      {DOCS_CHAT_API ? <DocsChat /> : COZE_BOT_ID && <Coze />}
+      {AI_CHAT_ENABLE ? <DocsChat /> : COZE_BOT_ID && <Coze />}
 
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && (
         <>
@@ -285,7 +285,7 @@ const ExternalPlugin = props => {
         </>
       )}
 
-      {CHATBASE_ID && (
+      {CHATBASE_ID && !AI_CHAT_ENABLE && (
         <>
           <script
             id={CHATBASE_ID}

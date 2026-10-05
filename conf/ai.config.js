@@ -28,11 +28,16 @@ module.exports = {
   // Chatbase 机器人 @see https://www.chatbase.co/
   CHATBASE_ID: process.env.NEXT_PUBLIC_CHATBASE_ID || null,
 
-  // 自建 AI 助手服务端代理；为空时不显示
-  DOCS_CHAT_API: process.env.NEXT_PUBLIC_DOCS_CHAT_API || '',
-  DOCS_CHAT_TITLE: process.env.NEXT_PUBLIC_DOCS_CHAT_TITLE || 'AI 助手',
-  DOCS_CHAT_WELCOME:
-    process.env.NEXT_PUBLIC_DOCS_CHAT_WELCOME ||
+  // 站内 AI 助手：浏览器直连，不需要服务端代理
+  // 默认用 Pollinations 匿名档（免费、免 key、带 CORS 头），模型见 https://text.pollinations.ai/models
+  AI_CHAT_ENABLE: process.env.NEXT_PUBLIC_AI_CHAT_ENABLE !== 'false',
+  AI_CHAT_ENDPOINT:
+    process.env.NEXT_PUBLIC_AI_CHAT_ENDPOINT ||
+    'https://text.pollinations.ai/openai',
+  AI_CHAT_MODEL: process.env.NEXT_PUBLIC_AI_CHAT_MODEL || 'openai-fast',
+  AI_CHAT_TITLE: process.env.NEXT_PUBLIC_AI_CHAT_TITLE || 'AI 助手',
+  AI_CHAT_WELCOME:
+    process.env.NEXT_PUBLIC_AI_CHAT_WELCOME ||
     '你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。',
 
   // Dify 聊天机器人 @see https://dify.ai/
