@@ -17,6 +17,7 @@ https://blog.waterfish.ren/article/3c23794e-eb27-8011-96cc-f60ee3404341
 https://blog.waterfish.ren/article/3cb3794e-eb27-8078-860d-ef13a1f16a92
 https://blog.waterfish.ren/article/3e03794e-eb27-801a-9a4f-df83e6d2ed2b
 https://blog.waterfish.ren/article/3e83794e-eb27-80a5-829a-f44eab05564c
+https://blog.waterfish.ren/article/3f13794e-eb27-808e-b4ed-c6f79db1123e
 https://blog.waterfish.ren/category
 https://blog.waterfish.ren/category/%E6%8A%80%E5%B7%A7
 https://blog.waterfish.ren/category/%E6%B0%B4%E9%B1%BC%E4%B9%8B%E5%AE%B6
@@ -39,6 +40,7 @@ https://blog.waterfish.ren/tag/%E9%A3%9E%E7%89%9B
 https://blog.waterfish.ren/tag/AI
 https://blog.waterfish.ren/tag/DeepSeek
 https://blog.waterfish.ren/tag/FnOS
+https://blog.waterfish.ren/tag/Github
 https://blog.waterfish.ren/tag/Microsoft%20Edge
 https://blog.waterfish.ren/tag/NAS
 https://blog.waterfish.ren/tag/docker
