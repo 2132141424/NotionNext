@@ -43,4 +43,6 @@ https://blog.waterfish.ren/tag/FnOS
 https://blog.waterfish.ren/tag/Github
 https://blog.waterfish.ren/tag/Microsoft%20Edge
 https://blog.waterfish.ren/tag/NAS
+https://blog.waterfish.ren/tag/arm
 https://blog.waterfish.ren/tag/docker
+https://blog.waterfish.ren/tag/x86
