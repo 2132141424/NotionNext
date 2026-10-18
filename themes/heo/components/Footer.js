@@ -3,6 +3,7 @@
 import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import CopyRightDate from '@/components/CopyRightDate'
 import PoweredBy from '@/components/PoweredBy'
+import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useEffect, useState } from 'react'
 import SocialButton from './SocialButton'
@@ -19,6 +20,7 @@ const Footer = () => {
   const BEI_AN = siteConfig('BEI_AN')
   const BEI_AN_LINK = siteConfig('BEI_AN_LINK')
   const BIO = siteConfig('BIO')
+  const CLARITY_ID = siteConfig('CLARITY_ID', null)
   const reserveMusicPlayerSpace =
     siteConfig('MUSIC_PLAYER') && siteConfig('MUSIC_PLAYER_VISIBLE')
   return (
@@ -76,6 +78,23 @@ const Footer = () => {
             </>
           )}
           <BeiAnGongAn />
+
+          {/* 微软 Clarity 站点披露 */}
+          {CLARITY_ID && (
+            <span className='mr-2' title='Microsoft Clarity 隐私披露'>
+              我们使用 Microsoft Clarity 了解您如何使用本网站，以改进产品与浏览体验。
+              <SmartLink
+                href='/privacy-policy'
+                className='mx-1 underline hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)] transition-colors'>
+                隐私政策
+              </SmartLink>
+              <SmartLink
+                href='https://privacy.microsoft.com/privacystatement'
+                className='underline hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)] transition-colors'>
+                微软隐私声明
+              </SmartLink>
+            </span>
+          )}
 
           <span className='hidden busuanzi_container_site_pv'>
             <i className='fas fa-eye' />
