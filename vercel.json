@@ -38,7 +38,7 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
       "has": [
@@ -48,10 +48,11 @@
           "value": "text/markdown"
         }
       ],
-      "destination": "/md/index.md"
+      "destination": "/md/index.md",
+      "permanent": false
     },
     {
-      "source": "/:path*",
+      "source": "/((?!md/|_next/|api/|\\.well-known/).*)",
       "has": [
         {
           "type": "header",
@@ -59,7 +60,8 @@
           "value": "text/markdown"
         }
       ],
-      "destination": "/md/:path*.md"
+      "destination": "/md/$1.md",
+      "permanent": false
     }
   ]
 }
