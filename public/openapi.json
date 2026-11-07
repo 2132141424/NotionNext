@@ -1,0 +1,91 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "水鱼博客内容接口",
+    "version": "1.0.0",
+    "description": "水鱼博客（blog.waterfish.ren）对外公开的只读内容接口，提供站点地图、RSS 订阅与站内搜索入口。",
+    "contact": {
+      "name": "水鱼",
+      "url": "https://blog.waterfish.ren/about"
+    },
+    "license": {
+      "name": "CC BY-NC-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://blog.waterfish.ren"
+    }
+  ],
+  "paths": {
+    "/sitemap.xml": {
+      "get": {
+        "operationId": "getSitemap",
+        "summary": "获取全站页面地址列表",
+        "description": "返回 XML 格式的站点地图，包含所有已发布文章、分类与标签页面。",
+        "responses": {
+          "200": {
+            "description": "站点地图",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rss/feed.xml": {
+      "get": {
+        "operationId": "getRssFeed",
+        "summary": "获取 RSS 订阅源",
+        "description": "返回最新文章的 RSS 2.0 订阅源，包含标题、摘要、发布时间与链接。",
+        "responses": {
+          "200": {
+            "description": "RSS 订阅源",
+            "content": {
+              "application/rss+xml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "searchPosts",
+        "summary": "站内搜索文章",
+        "description": "按关键词检索站内文章，返回 HTML 搜索结果页面；客户端通过 Algolia 索引完成检索。",
+        "parameters": [
+          {
+            "name": "s",
+            "in": "query",
+            "required": true,
+            "description": "搜索关键词",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "搜索结果页面",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
